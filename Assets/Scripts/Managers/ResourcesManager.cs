@@ -5,7 +5,9 @@ using Fusion;
 
 public class ResourcesManager : MonoBehaviour
 {
-	readonly List<NetworkObject> managedObjects = new List<NetworkObject>();
+    public Color[] PlayerColours = new Color[12];									// NOTE: Max 12 colours. Would need to change this value for more colours.
+
+    readonly List<NetworkObject> managedObjects = new List<NetworkObject>();
 
 	public void Manage(NetworkObject obj)
 	{

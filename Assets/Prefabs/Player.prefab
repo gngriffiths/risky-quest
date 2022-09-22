@@ -941,7 +941,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7309827310505984424}
-  - component: {fileID: 2328910517331271516}
   - component: {fileID: 680607705264227003}
   - component: {fileID: 483452918478230834}
   m_Layer: 6
@@ -970,40 +969,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &2328910517331271516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7309827310505984426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f7684f04e649e84fb2ee1bc9fbee42d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
-  _settings:
-    Shape: 1
-    IsTrigger: 0
-    Radius: 0.5
-    Height: 1
-    Extent: 0.035
-    Mass: 1
-    ColliderLayer: 6
-    CollisionLayerMask:
-      serializedVersion: 2
-      m_Bits: 1153
-    RenderBehavior: 1
-    SpawnColliderOnProxy: 1
-    AllowClientTeleports: 0
-    GroundSnapDistance: 0.25
-    GroundSnapSpeed: 4
-    StepHeight: 0.3
-    StepSpeed: 1
-    Processors:
-    - {fileID: 0}
-    - {fileID: -3592675505127058418, guid: f5358846b2371f744bfab8c48675d928, type: 3}
 --- !u!114 &680607705264227003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,7 +992,6 @@ MonoBehaviour:
   NestedObjects:
   - {fileID: 6726389242883637972}
   NetworkedBehaviours:
-  - {fileID: 2328910517331271516}
   - {fileID: 483452918478230834}
   SimulationBehaviours: []
 --- !u!114 &483452918478230834

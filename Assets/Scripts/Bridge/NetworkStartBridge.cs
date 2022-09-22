@@ -1,33 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
+// Bridge between UI and Photon.
+
 public class NetworkStartBridge : MonoBehaviour
 {
-	public NetworkDebugStart starter;
+	public NetworkDebugStart networkDebugStart;
 	public TMPro.TMP_InputField codeField;
 
 	private void OnEnable()
 	{
-		codeField.text = starter.DefaultRoomName;
+		codeField.text = networkDebugStart.DefaultRoomName;
 	}
 
 	public void SetCode(string code)
 	{
-		starter.DefaultRoomName = code;
+		networkDebugStart.DefaultRoomName = code;
 	}
 	
 	public void StartHost()
 	{
-		if (string.IsNullOrWhiteSpace(starter.DefaultRoomName))
-			starter.DefaultRoomName = RoomCode.Create();
-		starter.StartHost();
+		if (string.IsNullOrWhiteSpace(networkDebugStart.DefaultRoomName))
+			networkDebugStart.DefaultRoomName = RoomCode.Create();
+		networkDebugStart.StartHost();
 	}
 
 	public void StartClient()
 	{
-		starter.StartClient();
+		networkDebugStart.StartClient();
 	}
 
 	public void Shutdown()

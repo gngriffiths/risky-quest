@@ -1,5 +1,6 @@
 
 using Fusion;
+using UnityEngine;
 
 /// <summary>
 /// Prototyping component for spawning Player avatars.
@@ -9,17 +10,21 @@ public class PlayerSpawnerPrototype : SpawnerPrototype<PlayerSpawnPointPrototype
 
 #if UNITY_EDITOR
 
-  protected virtual void Reset() {
-    var protoPlayer = FusionPrototypingPrefabs.BasicPlayer;
-    if (protoPlayer)
-      PlayerPrefab = protoPlayer.GetComponent<NetworkObject>();
-  }
+    protected virtual void Reset()
+    {
+        Debug.Log("Not implemented in" + this.GetType().Name);
+        //var protoPlayer = FusionPrototypingPrefabs.BasicPlayer;
+        //if (protoPlayer)
+        //  PlayerPrefab = protoPlayer.GetComponent<NetworkObject>();
+    }
+
 
 
   [BehaviourButtonAction("Add Player Spawn Point Manager", false, true, nameof(_spawnPointManagerMissing))]
-  private void InspectorWarnMissingSpawnPointManager() {
-    AddBehaviour<PlayerSpawnPointManagerPrototype>();
-  }
+  private void InspectorWarnMissingSpawnPointManager() 
+    {
+        AddBehaviour<PlayerSpawnPointManagerPrototype>();
+    }
 
 #endif
 
@@ -28,10 +33,4 @@ public class PlayerSpawnerPrototype : SpawnerPrototype<PlayerSpawnPointPrototype
 
     Runner.SetPlayerObject(player, playerObject);
   }
-
 }
-
-
-
-
-

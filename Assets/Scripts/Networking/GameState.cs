@@ -52,7 +52,7 @@ public class GameState : NetworkBehaviour
 			if (Runner.IsPlayer) // [PLAYER] * -> Pregame
 			{
 				GameManager.im.gameUI.InitPregame(Runner);
-				GameManager.im.gameUI.colorUI.Init();
+				//GameManager.im.gameUI.colorUI.Init();
 			}
 		};
 

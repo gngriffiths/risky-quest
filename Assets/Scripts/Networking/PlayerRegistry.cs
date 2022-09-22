@@ -113,7 +113,8 @@ public class PlayerRegistry : NetworkBehaviour, INetworkRunnerCallbacks
 	public static byte[] GetAvailableColors()
 	{
 		List<byte> available = new List<byte>();
-		//for (byte i = 1; i < GameManager.rm.playerColours.Length; i++) available.Add(i);
+		for (byte i = 1; i < GameManager.rm.PlayerColours.Length; i++) 
+			available.Add(i);
 
 		foreach (var item in Instance.ObjectByRef)
 		{

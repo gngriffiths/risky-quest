@@ -49,13 +49,13 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 		starter.Shutdown();
 	}
 
-	public override void FixedUpdateNetwork()
-	{
-		base.FixedUpdateNetwork();
+	//public override void FixedUpdateNetwork()
+	//{
+	//	base.FixedUpdateNetwork();
 
-		if (Runner.IsForward && Runner.Simulation.Tick % 100 == 0)
-			im.gameUI.pingText.text = $"Ping: {1000 * Runner.GetPlayerRtt(Runner.LocalPlayer):N0}ms";
-	}
+	//	//if (Runner.IsForward && Runner.Simulation.Tick % 100 == 0)
+	//	//	im.gameUI.pingText.text = $"Ping: {1000 * Runner.GetPlayerRtt(Runner.LocalPlayer):N0}ms";
+	//}
 
 	public void Server_StartGame()
 	{

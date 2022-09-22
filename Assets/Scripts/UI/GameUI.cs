@@ -9,21 +9,21 @@ using System.Linq;
 public class GameUI : MonoBehaviour
 {
     [Header("UI References")]
-    public TMP_Text pingText;
+    //public TMP_Text pingText;
 	public TMP_Text regionText;
     public Button optionsButton;
-    public GameObject totalTaskBarObject;
-    public GameObject taskListObject;
+    //public GameObject totalTaskBarObject;
+    //public GameObject taskListObject;
     public GameObject messageScreen;
     public TMP_Text messageText;
     public TMP_Text messageTypeText;
 	public TMP_Text messageNicknameText;
     public CanvasGroup messageTextCG;
     public CanvasGroup messageScreenCG;
-	public ColorSelectionUI colorUI;
+	//public ColorSelectionUI colorUI;
 	public Image messageScreenPanel, messageScreenGlow;
-    [Header("Game Settings References")]
-    public GameObject gameSettingsObject;
+    //[Header("Game Settings References")]
+    //public GameObject gameSettingsObject;
 
 	private void Awake()
 	{
@@ -38,21 +38,17 @@ public class GameUI : MonoBehaviour
 
 	public void InitPregame(Fusion.NetworkRunner runner)
     {
-		totalTaskBarObject.SetActive(false);
-		taskListObject.SetActive(false);
-
-        gameSettingsObject.SetActive(true);
-        pingText.gameObject.SetActive(true);
-		GameManager.im.nicknameHolder.gameObject.SetActive(true);
+        //gameSettingsObject.SetActive(true);
+        //pingText.gameObject.SetActive(true);
+		//GameManager.im.nicknameHolder.gameObject.SetActive(true);
 	}
 
 	public void InitGame()
 	{
-		colorUI.Close();
-		gameSettingsObject.SetActive(false);
-		totalTaskBarObject.SetActive(true);
-		taskListObject.SetActive(true);
-		GameManager.im.nicknameHolder.gameObject.SetActive(false);
+		//colorUI.Close();
+		//gameSettingsObject.SetActive(false);
+
+		//GameManager.im.nicknameHolder.gameObject.SetActive(false);
 		AudioManager.Play("SFX_RoundStarted");
 
 		//Instantiate(GameManager.rm.playerMapIconPrefab, GameManager.im.mapIconHolder).Init(PlayerObject.Local);
@@ -75,13 +71,13 @@ public class GameUI : MonoBehaviour
 		StartCoroutine(OverlayTimeout(delay, 0.5f));
 	}
 
-	void SetOverlay(string text, string typeText, float timeout = 1)
-	{
-		StartCoroutine(OverlayFadeIn(2.5f));
-		messageText.text = text;
-		messageTypeText.text = typeText;
-		messageScreenCG.alpha = 0;
-	}
+	//void SetOverlay(string text, string typeText, float timeout = 1)
+	//{
+	//	StartCoroutine(OverlayFadeIn(2.5f));
+	//	messageText.text = text;
+	//	messageTypeText.text = typeText;
+	//	messageScreenCG.alpha = 0;
+	//}
 
 	IEnumerator OverlayFadeIn(float duration)
 	{
