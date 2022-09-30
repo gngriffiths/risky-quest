@@ -38,7 +38,9 @@ public class GameState : NetworkBehaviour
 			{
 				PlayerRegistry.ForEach(pObj =>
 				{
-                    // Reset player
+					
+
+					// Reset player
 					//pObj.Controller.IsDead = false;
 					//pObj.Controller.IsSuspect = false;
 					//pObj.Controller.cc.SetPosition(Vector3.zero);
@@ -51,6 +53,8 @@ public class GameState : NetworkBehaviour
 
 			if (Runner.IsPlayer) // [PLAYER] * -> Pregame
 			{
+			
+
 				GameManager.im.gameUI.InitPregame(Runner);
 				//GameManager.im.gameUI.colorUI.Init();
 			}
@@ -59,9 +63,11 @@ public class GameState : NetworkBehaviour
 		StateMachine[EGameState.Play].onEnter = state =>
 		{
 			Debug.Log($"Entered {EGameState.Play} from {state}");
-
+			
 			if (Runner.IsServer) // [SERVER] * -> Play
 			{
+				
+
 				// Set players' starting positions
 				//PlayerRegistry.ForEach(
 				//	obj => obj.Controller.cc.SetPosition(GameManager.Instance.mapData.GetSpawnPosition(obj.Index)));
@@ -69,9 +75,23 @@ public class GameState : NetworkBehaviour
 
 				if (state == EGameState.Pregame) // [SERVER] Pregame -> Play
 				{
-
+					
 				}
+
+				PlayerRegistry.ForEach(
+
+				obj => obj.Controller.RPC_InitUnits(obj.Index, 6));
+
+
+
 			}
+
+			if (Runner.IsPlayer) // 
+			{
+				
+
+			}
+	
 		};
 
 		StateMachine[EGameState.GameOver].onExit = state => GameManager.im.gameUI.CloseOverlay();

@@ -9,11 +9,30 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 	public static GameState State { get; private set; }
     public static ResourcesManager rm { get; private set; }
 	public static InterfaceManager im { get; private set; }
+	public static CombatManager combatManager { get; private set; }
+
+
+
+
+
+
 
 	public NetworkDebugStart starter;
 
 	public UIScreen pauseScreen;
 	public UIScreen optionsScreen;
+
+	public Transform parent_spawnPoints;
+	public Transform parent_unitPool;
+
+	public Transform GetUnitPool()
+	{
+		if (parent_unitPool) { return parent_unitPool; }
+
+		return null;
+	
+	}
+
 
     private void Awake()
     {
@@ -23,7 +42,9 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
             rm = GetComponent<ResourcesManager>();
             im = GetComponent<InterfaceManager>();
 			State = GetComponent<GameState>();
-        }
+			combatManager = GetComponent<CombatManager>();
+
+		}
         else
         {
 			Destroy(gameObject);
@@ -71,6 +92,9 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 		State.Server_SetState(EGameState.Play);
 	}
 
+
+
+
 	public static void QuitGame()
 	{
 #if UNITY_EDITOR
@@ -78,9 +102,26 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 #else
 		Application.Quit();
 #endif
-	}	
+	}
 
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	void INetworkRunnerCallbacks.OnConnectedToServer(NetworkRunner runner)
 	{
 		UIScreen.CloseAll();

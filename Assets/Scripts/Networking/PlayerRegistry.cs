@@ -7,7 +7,7 @@ using System.Linq;
 
 public class PlayerRegistry : NetworkBehaviour, INetworkRunnerCallbacks
 {
-	public const byte CAPACITY = 2;
+	public const byte CAPACITY = 4;
 
 	public static PlayerRegistry Instance { get; private set; }
 

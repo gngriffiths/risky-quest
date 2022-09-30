@@ -11,9 +11,12 @@ public class PlayerObject : NetworkBehaviour
 	[Networked]
 	public byte Index { get; set; }
 
+
 	public byte ColorIndex { get; set; }
 
 	//public Color GetColor => GameManager.rm.playerColours[ColorIndex];
+
+	[field: Header("References"), SerializeField] public PlayerControl Controller { get; private set; }
 
 	[field: SerializeField] public SphereCollider KillRadiusTrigger { get; private set; }
 
@@ -25,6 +28,8 @@ public class PlayerObject : NetworkBehaviour
 		Ref = pRef;
 		Index = index;
 		ColorIndex = color;
+
+		
 	}
 
 	public override void Spawned()
@@ -40,8 +45,17 @@ public class PlayerObject : NetworkBehaviour
 		{
 			Local = this;
 			Rpc_SetNickname(PlayerPrefs.GetString("nickname"));
+			Rpc_SetFaction(Index);
 		}
 	}
+
+	[Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+	void Rpc_SetFaction(int _faction)
+	{
+		GetComponent<PlayerControl>().faction = _faction;
+		//Nickname = nick;
+	}
+
 
 	[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
 	void Rpc_SetNickname(string nick)
@@ -55,5 +69,14 @@ public class PlayerObject : NetworkBehaviour
 		if (PlayerRegistry.IsColorAvailable(c))
 			ColorIndex = c;
 	}
+
+
+
+
+
+
+
+
+
 
 }
