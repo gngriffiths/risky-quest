@@ -7,19 +7,23 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Vehicle 1
-  m_Shader: {fileID: -6465566751694194690, guid: 3a65d3454f60cdd41ab259f4fa38f78e, type: 3}
+  m_Name: Shader Graphs_Decals 1
+  m_Shader: {fileID: -6465566751694194690, guid: b512cbb757a78de4793dc3ff94102040, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_abfdaea01b0848f5872e4cce686041a5:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -34,13 +38,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Blend: 0.48
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _BaseColor: {r: 0.12941179, g: 0.3882353, b: 0.2907091, a: 0}
+    - _Color: {r: 0.7169812, g: 0.05185707, b: 0.05185707, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &4819028062826359011
+--- !u!114 &9110573439520872662
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
