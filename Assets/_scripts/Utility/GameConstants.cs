@@ -10,4 +10,8 @@ public static class GameConstants
     public static float GCD_COMBAT = 0.5f;
 
 
+    public static string UNIT_LAYER = "Unit";
+    public static string GROUND_LAYER = "Ground";
+
+
 }

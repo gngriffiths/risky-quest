@@ -62,6 +62,8 @@ public class PlayerControl : NetworkBehaviour
            
             //faction = GetComponent<PlayerObject>().Index;
         }
+
+
     }
 
     public void InitUnits(int _unitCount)
@@ -304,9 +306,9 @@ public class PlayerControl : NetworkBehaviour
 
         RaycastHit hit;
 
+        LayerMask mask = LayerMask.GetMask(GameConstants.UNIT_LAYER,GameConstants.GROUND_LAYER);
 
-
-        if (Physics.Raycast(GetSelector().GetRayFromCamera(), out hit))
+        if (Physics.Raycast(GetSelector().GetRayFromCamera(), out hit, mask))
         {
 
             if (hit.transform.tag == "ground")
@@ -349,9 +351,9 @@ public class PlayerControl : NetworkBehaviour
 
         RaycastHit hit;
 
+        LayerMask mask = LayerMask.GetMask(GameConstants.UNIT_LAYER, GameConstants.GROUND_LAYER);
 
-
-        if (SelectedUnit() && Physics.Raycast(GetSelector().GetRayFromCamera(), out hit) )
+        if (SelectedUnit() && Physics.Raycast(GetSelector().GetRayFromCamera(), out hit,mask) )
         {
             if ( hit.transform.GetComponent<Unit>())
             {
