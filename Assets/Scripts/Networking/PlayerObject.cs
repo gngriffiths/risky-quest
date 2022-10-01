@@ -16,10 +16,13 @@ public class PlayerObject : NetworkBehaviour
 
 	//public Color GetColor => GameManager.rm.playerColours[ColorIndex];
 
+<<<<<<< HEAD
 	[field: Header("References"), SerializeField] public PlayerControl Controller { get; private set; }
 
 	[field: SerializeField] public SphereCollider KillRadiusTrigger { get; private set; }
 
+=======
+>>>>>>> 227fc1ad50fb593ccc28bb4595bf80d989d626d3
 
 	public void Server_Init(PlayerRef pRef, byte index, byte color)
 	{
@@ -60,7 +63,7 @@ public class PlayerObject : NetworkBehaviour
 	[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
 	void Rpc_SetNickname(string nick)
 	{
-		//Nickname = nick;
+		//Nickname = nick;		// Do we want to display player's nicknames?
 	}
 
 	[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
