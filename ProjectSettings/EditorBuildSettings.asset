@@ -5,6 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+<<<<<<< HEAD
   - enabled: 1
     path: Assets/Scenes/game_thrash.unity
     guid: 8063647641f0e1a47b25ea6d9d0802f8
@@ -12,6 +13,12 @@ EditorBuildSettings:
     path: Assets/Scenes/worldmerge_no_cam_follow.unity
     guid: 820e8de6e72a36f479f9138f208c6caa
   - enabled: 1
+=======
+  - enabled: 0
+>>>>>>> c422cfa60d4e5bc4abf05d3ecd0bce580460561c
     path: Assets/Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/World.unity
+    guid: 83079a9aeab34824ead1cc88e35108e5
   m_configObjects: {}
