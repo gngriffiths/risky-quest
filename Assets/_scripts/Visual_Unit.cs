@@ -9,6 +9,8 @@ public class Visual_Unit : MonoBehaviour
 
     public Transform parent_unitCountIndicators;
 
+    public ParticleSystem attack;
+
 
     public void SetColors(Color _color)
     {
@@ -29,29 +31,51 @@ public class Visual_Unit : MonoBehaviour
         
     }
 
-    public void UpdateUnitCount(int _count)
+    public void SetMaterial(Material _color)
     {
+        if (primaryRenderer) { primaryRenderer.material = _color; }
+
         if (parent_unitCountIndicators == null) { return; }
 
         foreach (Transform el in parent_unitCountIndicators)
         {
-            el.gameObject.SetActive(false);
-        }
 
-        if (parent_unitCountIndicators.childCount > _count)
-        {
-            if (_count > 0)
+
+            if (el.GetComponent<MeshRenderer>())
             {
-                parent_unitCountIndicators.GetChild(_count - 1).gameObject.SetActive(true);
-                parent_unitCountIndicators.GetChild(_count - 1).localScale = parent_unitCountIndicators.GetChild(0).localScale;
+                el.GetComponent<MeshRenderer>().material = _color;
             }
         }
-        else
+
+
+    }
+
+
+    public void UpdateUnitCount(int _count)
+    {
+        if (parent_unitCountIndicators == null) { return; }
+
+        int count = 0;
+
+        foreach (Transform el in parent_unitCountIndicators)
         {
-            parent_unitCountIndicators.GetChild(_count - 1).gameObject.SetActive(true);
-            parent_unitCountIndicators.GetChild(_count - 1).localScale *= 1 + (0.1f * _count);
+            if (count < _count)
+            {
+                el.localPosition = new Vector3(0, 0, -0.05f * count);
+                if (el.GetComponent<MeshRenderer>() )
+                {
+                    el.GetComponent<MeshRenderer>().material = primaryRenderer.material;
+                }
+                el.gameObject.SetActive(true);
+            }
+            else
+            {
+                el.gameObject.SetActive(false);
+            }
+            count++;
         }
-  
+
+
     }
 
     public void Select(bool _select)
@@ -64,5 +88,30 @@ public class Visual_Unit : MonoBehaviour
             { selectedRenderer.material.color = Color.gray; }
         }
     }
+
+
+
+    public void StartAttack()
+    {
+        
+        if (attack)
+        {
+            //plays on awake
+            attack.gameObject.SetActive(false);
+            attack.gameObject.SetActive(true);
+        }
+    }
+
+    public void EndAttack()
+    {
+        if (attack)
+        { attack.gameObject.SetActive(false); }
+    }
+
+    public void StartDefense()
+    { }
+
+    public void EndDefense()
+    { }
 
 }

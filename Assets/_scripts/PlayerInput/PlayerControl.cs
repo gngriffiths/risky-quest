@@ -9,10 +9,14 @@ public enum Unit_Command
 {
     none,
     move,attack,attack_move,stop,
+    inCombat_attacking,
+    inCombat_defending,
     defend,
 
-    split,merge
+    split,merge,
+    merge_move
 }
+
 
 [RequireComponent(typeof(Selector))]
 public class PlayerControl : NetworkBehaviour
@@ -22,6 +26,9 @@ public class PlayerControl : NetworkBehaviour
     readonly FixedInput LocalInput = new FixedInput();
 
     private Selector selector;
+    private Visual_IssueOrders visualOrders;
+
+
 
     [SerializeField]
     private Unit_Command pendingCommand;
@@ -30,7 +37,15 @@ public class PlayerControl : NetworkBehaviour
     [SerializeField]
     private List<Unit> units;
 
+    public CameraFollow camFollow;
+
+
     public int faction;
+
+    private int tracker_idCount;
+    private int tracker_unitSelector;
+
+    private float unitSpawnOffset = 0.2f;
 
     public GameObject prefab_unit;
 
@@ -57,10 +72,11 @@ public class PlayerControl : NetworkBehaviour
         }
         if (Object.HasInputAuthority)
         {
-          //  Local = this;
-           // faction = PlayerObject.Local.Index;
-           
+            //  Local = this;
+            // faction = PlayerObject.Local.Index;
+
             //faction = GetComponent<PlayerObject>().Index;
+            if (GetVisualOrders()) { GetVisualOrders().SetFaction(GameManager.rm.PlayerMaterials[faction]); }
         }
 
 
@@ -88,25 +104,45 @@ public class PlayerControl : NetworkBehaviour
 
         while (count < _unitCount && GetUnits().Count < _unitCount )
         {
-            GameObject clone;
 
-            if (GameManager.Instance.GetUnitPool() && GameManager.Instance.GetUnitPool().childCount > 0 && GameManager.Instance.GetUnitPool().GetChild(0).GetComponent<Unit>())
-            {
-                clone = GameManager.Instance.GetUnitPool().GetChild(0).gameObject;
-                clone.transform.parent = null;
-            }
-            else
-            {
-                clone = Instantiate(prefab_unit, spawnpoint.position, spawnpoint.rotation);
-            }
+            GameObject clone = GetUnitToSpawn();
+
 
             units.Add(clone.GetComponent<Unit>());
-            clone.GetComponent<Unit>().Init(pID, units.Count, GameManager.rm.PlayerColours[pID], spawnpoint.position, spawnpoint.rotation);
-                clone.GetComponent<Unit>().owner = this;
+
+            Vector3 spawnPos = spawnpoint.position ;
+             spawnPos +=  (spawnpoint.right * count * unitSpawnOffset);
+             spawnPos -= ((spawnpoint.forward * count * unitSpawnOffset) * (count % 2));
+
+            clone.GetComponent<Unit>().Init(pID, tracker_idCount, GameManager.rm.PlayerMaterials[pID], spawnPos, spawnpoint.rotation);
+            clone.GetComponent<Unit>().owner = this;
+            clone.GetComponent<Unit>().SetCount(2);
+
             count++;
         }
 
 
+    }
+
+
+    public GameObject GetUnitToSpawn()
+    {
+
+        GameObject clone;
+
+        if (GameManager.Instance.GetUnitPool() && GameManager.Instance.GetUnitPool().childCount > 0 && GameManager.Instance.GetUnitPool().GetChild(0).GetComponent<Unit>())
+        {
+            clone = GameManager.Instance.GetUnitPool().GetChild(0).gameObject;
+            clone.transform.parent = null;
+        }
+        else
+        {
+            clone = Instantiate(prefab_unit, prefab_unit.transform.position,prefab_unit.transform.rotation);
+        }
+
+        tracker_idCount++;
+
+        return clone;
     }
 
 
@@ -133,30 +169,23 @@ public class PlayerControl : NetworkBehaviour
 
         while (count < _unitCount && GetUnits().Count < _unitCount)
         {
-            GameObject clone;
+            GameObject clone = GetUnitToSpawn();
 
-            if (GameManager.Instance.GetUnitPool() && GameManager.Instance.GetUnitPool().childCount > 0 && GameManager.Instance.GetUnitPool().GetChild(0).GetComponent<Unit>())
-            {
-                clone = GameManager.Instance.GetUnitPool().GetChild(0).gameObject;
-                clone.transform.parent = null;
-            }
-            else
-            {
-                clone = Instantiate(prefab_unit, spawnpoint.position, spawnpoint.rotation);
-            }
-            
 
             units.Add(clone.GetComponent<Unit>());
-            clone.GetComponent<Unit>().Init(pID, units.Count, GameManager.rm.PlayerColours[pID], spawnpoint.position, spawnpoint.rotation);
+
+            Vector3 spawnPos = spawnpoint.position + (spawnpoint.right * count * unitSpawnOffset) - ((spawnpoint.forward * count * unitSpawnOffset) * (count % 2));
+
+            clone.GetComponent<Unit>().Init(pID, units.Count, GameManager.rm.PlayerMaterials[pID], spawnPos, spawnpoint.rotation);
+            clone.GetComponent<Unit>().owner = this;
+            clone.GetComponent<Unit>().SetCount(2);
             count++;
         }
 
-       
 
+        if (GetVisualOrders()) { GetVisualOrders().SetFaction(GameManager.rm.PlayerMaterials[pID]); }
 
     }
-
-
 
 
 
@@ -173,11 +202,17 @@ public class PlayerControl : NetworkBehaviour
 
         }
 
-       
+        if (Object.HasInputAuthority)
+        {
+            ListenToInput();
+        }
 
         //   ListenToInput();
 
     }
+
+
+
 
     public override void FixedUpdateNetwork()
     
@@ -201,10 +236,7 @@ public class PlayerControl : NetworkBehaviour
         {
            
         }
-        if (Object.HasInputAuthority)
-        {
-            ListenToInput();
-        }
+       
 
         if (Runner.IsResimulation == false)
             LocalInput.Clear();
@@ -234,7 +266,24 @@ public class PlayerControl : NetworkBehaviour
 
         }
 
-         if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            tracker_unitSelector++;
+
+            if (tracker_unitSelector > tracker_idCount)
+            { tracker_unitSelector = 0; }
+
+            if (GetUnit(tracker_unitSelector) && GetUnit(tracker_unitSelector).gameObject.activeSelf)
+            {
+                SelectUnit(GetUnit(tracker_unitSelector));
+            }
+
+
+
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
         {
             SetPendingCommand(Unit_Command.attack);
         }
@@ -251,7 +300,7 @@ public class PlayerControl : NetworkBehaviour
 
          if (Input.GetKeyDown(KeyCode.F))
         {
-            ExecuteCommand(Unit_Command.stop);
+          
         }
 
          if (Input.GetKeyDown(KeyCode.Q))
@@ -263,7 +312,7 @@ public class PlayerControl : NetworkBehaviour
         {
             if (SelectedUnit())
             {
-                ExecuteCommand(Unit_Command.split);
+ 
                 SetPendingCommand(Unit_Command.none);
             }
             else
@@ -289,6 +338,7 @@ public class PlayerControl : NetworkBehaviour
         {
             if (SelectedUnit())
             {
+                if (GetVisualOrders()) { GetVisualOrders().SetFaction(GameManager.rm.PlayerMaterials[faction]); }
                 RPC_IssueCommand(Unit_Command.split, SelectedUnit().faction, SelectedUnit().id, Vector3.zero);
                 //SplitUnit(SelectedUnit());
             }
@@ -310,29 +360,21 @@ public class PlayerControl : NetworkBehaviour
 
         if (Physics.Raycast(GetSelector().GetRayFromCamera(), out hit, mask))
         {
-
-            if (hit.transform.tag == "ground")
-            {
-                if (SelectedUnit() && SelectedUnit().faction == GetComponent<PlayerObject>().Index)
-                {
-                   // SelectedUnit().RPC_SetDestination(hit.point);
-                    RPC_IssueCommand(Unit_Command.move, SelectedUnit().faction, SelectedUnit().id,hit.point);
-                }
-                else
-                {
-                   // RPC_IssueCommand(Player_Command.merge, SelectedUnit().faction, -1, hit.point);
-
-                }
-
-
-            }
-
+           
 
             if (hit.transform.GetComponent<Unit>())
             {
                 ClickedOnUnit(hit.transform.GetComponent<Unit>());
 
 
+            }
+            else
+            {
+                if (SelectedUnit() && SelectedUnit().faction == GetComponent<PlayerObject>().Index)
+                {
+                    // SelectedUnit().RPC_SetDestination(hit.point);
+                    RPC_IssueCommand(Unit_Command.move, SelectedUnit().faction, SelectedUnit().id, hit.point);
+                }
             }
 
 
@@ -353,7 +395,7 @@ public class PlayerControl : NetworkBehaviour
 
         LayerMask mask = LayerMask.GetMask(GameConstants.UNIT_LAYER, GameConstants.GROUND_LAYER);
 
-        if (SelectedUnit() && Physics.Raycast(GetSelector().GetRayFromCamera(), out hit,mask) )
+        if (SelectedUnit() && SelectedUnit().faction == faction && Physics.Raycast(GetSelector().GetRayFromCamera(), out hit,mask) )
         {
             if ( hit.transform.GetComponent<Unit>())
             {
@@ -364,24 +406,36 @@ public class PlayerControl : NetworkBehaviour
                 {
 
 
-                    RPC_IssueCommand(Unit_Command.attack, SelectedUnit().faction, SelectedUnit().id, hit.point, targetUnit.faction, targetUnit.id);
+                    RPC_IssueCommand(Unit_Command.attack, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
 
                 }
+                else if (SelectedUnit().faction == targetUnit.faction)
+                {
+
+                    if (SelectedUnit().id == targetUnit.id)
+                    {
+
+
+                        RPC_IssueCommand(Unit_Command.split, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
+
+                    }
+                    else
+                    {
+                        RPC_IssueCommand(Unit_Command.merge, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
+
+                    }
+
+                }
+
+
             }
-            else if (hit.transform.tag == "ground")
+            else //if (hit.transform.tag == "ground")
             {
-                RPC_IssueCommand(Unit_Command.move, SelectedUnit().faction, SelectedUnit().id, hit.point);
-
-                //if (SelectedUnit() && SelectedUnit().faction == GetComponent<PlayerObject>().Index)
-                //{
-                //    // SelectedUnit().RPC_SetDestination(hit.point);
+                if (SelectedUnit() && SelectedUnit().faction == faction)
+                {
+                    RPC_IssueCommand(Unit_Command.move, SelectedUnit().faction, SelectedUnit().id, hit.point);
+                }
                     
-                //}
-                //else
-                //{
-                //    // RPC_IssueCommand(Player_Command.merge, SelectedUnit().faction, -1, hit.point);
-
-                //}
 
 
             }
@@ -408,30 +462,81 @@ public class PlayerControl : NetworkBehaviour
 
         Debug.Log(" RPC_IssueCommand + " + _cmd.ToString() + "Unit: " + _unitId + "   " + _point.ToString());
 
+        if (GetVisualOrders())
+        {
+            
+            GetVisualOrders().OrderIssued(new Vector3(_point.x,0,_point.z),_cmd);
+        
+        
+        }
+
+
+
         if (GetUnits().Count == 0) { return; }
+
+
+
+
 
         Unit actingUnit = GetUnit(_unitId);
         Unit targetUnit = null;
 
         PlayerControl targetPlayer = null;
 
+        if (actingUnit == null || actingUnit.gameObject.activeSelf == false) { return; }
 
         if (_cmd == Unit_Command.move)
         {
 
             actingUnit.SetCommand(Unit_Command.move);
+
             actingUnit.SetNewDestination(_point);
 
         }
         if (_cmd == Unit_Command.attack_move)
         {
-            actingUnit.SetCommand(Unit_Command.attack);
+            //actingUnit.SetCommand(Unit_Command.attack);
             actingUnit.SetNewDestination(_point);
 
         }
         else if (_cmd == Unit_Command.split)
         {
-            SplitUnit(actingUnit);
+            if (actingUnit)
+            {
+                SplitUnit(actingUnit);
+
+            }
+
+        }
+        else if (_cmd == Unit_Command.merge)
+        {
+
+            //targetUnit = GetUnit(_targetUnitId);
+
+            //if (actingUnit && targetUnit)
+            //{
+            //    MergeUnit(actingUnit, targetUnit);
+
+            //}
+            targetUnit = GetUnit(_targetUnitId);
+
+            if (targetUnit && _targetFaction == actingUnit.faction && actingUnit.id != targetUnit.id)
+            {
+                
+                
+                
+
+                if (targetUnit)
+                {
+
+                    actingUnit.SetCommand(Unit_Command.merge);
+                    actingUnit.SetTarget(targetUnit);
+
+                    actingUnit.SetNewDestination(targetUnit.transform.position);
+                }
+
+
+            }
 
         }
         else if (_cmd == Unit_Command.attack)
@@ -528,6 +633,7 @@ public class PlayerControl : NetworkBehaviour
         {
             float atkRoll = Random.Range(0, 10.0f);
             float defRoll = Random.Range(0, 10.0f);
+
             RPC_StartCombat(_attacker.faction, _attacker.id, atkRoll, _defender.faction, _defender.id, defRoll);
         }
 
@@ -545,10 +651,14 @@ public class PlayerControl : NetworkBehaviour
 
 
 
-    public void MergeUnit(Unit _unit)
+    public void MergeUnit(Unit _unit, Unit _incomingUnit)
     {
-        SelectedUnit().unitCount += _unit.unitCount;
-        Destroy(_unit.gameObject);
+
+        _unit.UpdateCount(_incomingUnit.unitCount);
+
+        _unit.SetCommand(Unit_Command.none);
+
+        _incomingUnit.De_Init();
     
     }
 
@@ -557,11 +667,33 @@ public class PlayerControl : NetworkBehaviour
     {
         if (_unit.unitCount > 1)
         {
-            _unit.unitCount /= 2;
-            Instantiate(_unit.gameObject, _unit.transform.position + (Vector3.right * 0.2f), _unit.transform.rotation);
-        
+            int countChange = Mathf.FloorToInt(_unit.unitCount * 0.5f);
+
+            _unit.unitCount -= countChange;
+
+            GameObject clone = GetUnitToSpawn();
+
+            GetUnits().Add(clone.GetComponent<Unit>());
+
+            Vector3 spawnPos = _unit.transform.position + (Vector3.right * 0.2f);
+
+            clone.GetComponent<Unit>().Init(_unit.faction, tracker_idCount, GameManager.rm.PlayerMaterials[faction], spawnPos, _unit.transform.rotation);
+            tracker_idCount++;
+
+
+            clone.GetComponent<Unit>().NavAgent().Warp(spawnPos);
+
+            
+            clone.GetComponent<Unit>().unitCount = countChange;
+
+
+            clone.GetComponent<Unit>().owner = this;
+            clone.GetComponent<Unit>().Update_Visuals();
+
+
         }
 
+        SelectUnit(null);
     }
 
 
@@ -659,6 +791,11 @@ public class PlayerControl : NetworkBehaviour
 
         selectedUnit = _unit;
 
+        if (GetCameraFollow() && selectedUnit)
+        {
+            GetCameraFollow().listenerTf = selectedUnit.transform;
+        }
+
         if (SelectedUnit() && SelectedUnit().Visuals())
         {
             SelectedUnit().Visuals().Select(true);
@@ -685,5 +822,25 @@ public class PlayerControl : NetworkBehaviour
         }
         return selector;
     }
+
+    public Visual_IssueOrders GetVisualOrders()
+    {
+        if (visualOrders == null)
+        {
+            visualOrders = GetComponent<Visual_IssueOrders>();
+        }
+        return visualOrders;
+    }
+
+
+    public CameraFollow GetCameraFollow()
+    {
+        if (camFollow == null)
+        {
+            camFollow = FindObjectOfType<CameraFollow>();
+        }
+        return camFollow;
+    }
+
 
 }

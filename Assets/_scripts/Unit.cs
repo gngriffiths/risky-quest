@@ -13,15 +13,19 @@ public class Unit : MonoBehaviour
     public int faction;
     public int id;
 
+
     [Min(1)]
     public int range;
-
     [Min(1)]
     public int moveSpeed;
-
+    [Min(1)]
+    public int attackTime;
 
 
     public Unit_Command command;
+
+    private ControlPoint current_controlPoint;
+
 
     private NavMeshAgent navAgent;
 
@@ -42,14 +46,20 @@ public class Unit : MonoBehaviour
 
 
 
-    public void Init(int _faction, int _id,Color _color,Vector3 _pos,Quaternion _rot)
+    public void Init(int _faction, int _id,Material _color,Vector3 _pos,Quaternion _rot)
     {
         faction = _faction;
         id = _id;
-        unitCount = _id;
+       // unitCount = 1;
 
-        transform.position = _pos + (transform.right * _id * 0.1f) - ((transform.forward * _id * 0.1f) * (_id % 2));
+        NavAgent().speed = moveSpeed;
+
+
+        transform.position = _pos;
         transform.rotation = _rot;
+
+
+
 
         visuals = GetComponent<Visual_Unit>();
 
@@ -60,18 +70,18 @@ public class Unit : MonoBehaviour
 
     }
 
-    public void Init_Visuals(Color _color)
+    public void Init_Visuals(Material _color)
     {
 
         //NOTE: currently basic/debug visual references. Intended to be replaced with the final art elements
         if (visuals)
         {
-            visuals.UpdateUnitCount(unitCount);
-            visuals.SetColors(_color);
+            Visuals().UpdateUnitCount(unitCount);
+            Visuals().SetMaterial(_color);
         }
         else
         {
-            transform.GetChild(0).GetComponent<MeshRenderer>().material.color = _color;
+            transform.GetChild(0).GetComponent<MeshRenderer>().material = _color;
         }
 
 
@@ -96,9 +106,9 @@ public class Unit : MonoBehaviour
     {
         //NOTE: currently basic/debug visual references. Intended to be replaced with the final art elements
 
-        if (visuals)
+        if (Visuals())
         {
-            visuals.UpdateUnitCount(unitCount);
+            Visuals().UpdateUnitCount(unitCount);
         }
         else
         {
@@ -117,21 +127,25 @@ public class Unit : MonoBehaviour
 
         if ( GetTarget() && CurrentCooldown() <= 0)
         {
-            if (ActiveCommand() == Unit_Command.attack && GetTarget() )
-            {
-
+           
 
                 if (DistanceToDestination() > range)
                 {
-                    if (GetOwner() && GetOwner().Object.HasInputAuthority)
-                    {
-                        GetOwner().RPC_IssueCommand(Unit_Command.attack_move, faction, id, GetTarget().transform.position);
 
+                    if (ActiveCommand() == Unit_Command.attack || ActiveCommand() == Unit_Command.merge)
+                    {
+                        if (GetOwner() && GetOwner().Object.HasInputAuthority)
+                        {
+                            GetOwner().RPC_IssueCommand(Unit_Command.attack_move, faction, id, GetTarget().transform.position);
+
+                        }
                     }
+                        
 
                 }
                 else
                 {
+
                     if (ActiveCommand() == Unit_Command.attack)
                     {
 
@@ -141,14 +155,26 @@ public class Unit : MonoBehaviour
 
                             SetCooldown(GameConstants.GCD_UNITACTION);
                             GetOwner().StartCombat(this, GetTarget());
-
+                        SetCommand(Unit_Command.none);
                         }
                     }
                     else if (ActiveCommand() == Unit_Command.merge)
-                    { }
-                }
+                    {
+                        if (GetOwner())
+                        {
+                            SetCooldown(GameConstants.GCD_UNITACTION);
+                            GetOwner().MergeUnit(this, GetTarget());
+
+                        }
+                    }
 
             }
+
+            
+
+
+
+
         }
 
         if (unitCount <= 0)
@@ -169,7 +195,14 @@ public class Unit : MonoBehaviour
 
         if (NavAgent())
         {
-            NavAgent().SetDestination(_dest);
+            NavMeshHit hit;
+
+            if (NavMesh.SamplePosition(_dest, out hit, 1f, NavMesh.AllAreas))
+            {
+                NavAgent().SetDestination(_dest);
+            }
+
+
         }
 
       
@@ -253,7 +286,15 @@ public class Unit : MonoBehaviour
 
 
 
+    public ControlPoint GetCurrentControlPoint()
+    {
+        return current_controlPoint;
+    }
 
+    public void SetCurrentControlPoint(ControlPoint _newPoint)
+    {
+         current_controlPoint = _newPoint;
+    }
 
     public NavMeshAgent NavAgent()
     {
@@ -266,7 +307,12 @@ public class Unit : MonoBehaviour
 
 
     public Visual_Unit Visuals()
-    { return visuals; }
+    {
+        if (visuals == null)
+        { visuals = GetComponent<Visual_Unit>(); }
+
+        return visuals;
+    }
 
 
 
