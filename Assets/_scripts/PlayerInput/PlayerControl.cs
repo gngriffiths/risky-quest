@@ -45,7 +45,7 @@ public class PlayerControl : NetworkBehaviour
     private int tracker_idCount;
     private int tracker_unitSelector;
 
-    private float unitSpawnOffset = 0.2f;
+    private float unitSpawnOffset = 0.05f;
 
     public GameObject prefab_unit;
 
@@ -82,47 +82,7 @@ public class PlayerControl : NetworkBehaviour
 
     }
 
-    public void InitUnits(int _unitCount)
-    {
-       
-        if (Runner.IsConnectedToServer)
-        {
-           return;
-        }
-
-        int pID = faction;
-
-        Transform spawnpoint = transform;
-
-        if (GameManager.Instance.parent_spawnPoints != null && GameManager.Instance.parent_spawnPoints.childCount > 0)
-        { 
-            spawnpoint = GameManager.Instance.parent_spawnPoints.GetChild(0 );
-
-        }
-
-        int count = 0;
-
-        while (count < _unitCount && GetUnits().Count < _unitCount )
-        {
-
-            GameObject clone = GetUnitToSpawn();
-
-
-            units.Add(clone.GetComponent<Unit>());
-
-            Vector3 spawnPos = spawnpoint.position ;
-             spawnPos +=  (spawnpoint.right * count * unitSpawnOffset);
-             spawnPos -= ((spawnpoint.forward * count * unitSpawnOffset) * (count % 2));
-
-            clone.GetComponent<Unit>().Init(pID, tracker_idCount, GameManager.rm.PlayerMaterials[pID], spawnPos, spawnpoint.rotation);
-            clone.GetComponent<Unit>().owner = this;
-            clone.GetComponent<Unit>().SetCount(2);
-
-            count++;
-        }
-
-
-    }
+    
 
 
     public GameObject GetUnitToSpawn()
@@ -147,6 +107,44 @@ public class PlayerControl : NetworkBehaviour
 
 
 
+    public void InitUnits(int _faction, int _unitCount)
+    {
+
+        faction = _faction;
+        int pID = _faction;
+
+        Debug.Log("int pID = GetComponent<PlayerObject>().Index;: " + pID);
+        pID = Mathf.Clamp(Mathf.Abs(pID), 0, 100) % 3;
+
+        Transform spawnpoint = transform;
+        if (GameManager.Instance.parent_spawnPoints != null && GameManager.Instance.parent_spawnPoints.childCount > 0)
+        {
+            spawnpoint = GameManager.Instance.parent_spawnPoints.GetChild(pID % (GameManager.Instance.parent_spawnPoints.childCount - 1));
+
+        }
+
+        int count = 0;
+
+        while (count < _unitCount && GetUnits().Count < GameConstants.MAX_UNITS)
+        {
+            GameObject clone = GetUnitToSpawn();
+
+
+            GetUnits().Add(clone.GetComponent<Unit>());
+
+            Vector3 spawnPos = spawnpoint.position + (spawnpoint.right * GetUnits().Count * unitSpawnOffset) - ((spawnpoint.forward * GetUnits().Count * unitSpawnOffset) * (GetUnits().Count % 2));
+
+            clone.GetComponent<Unit>().Init(pID, GetUnits().Count, GameManager.rm.PlayerMaterials[pID], spawnPos, spawnpoint.rotation);
+            clone.GetComponent<Unit>().owner = this;
+            clone.GetComponent<Unit>().SetCount(2);
+            count++;
+        }
+
+
+        if (GetVisualOrders()) { GetVisualOrders().SetFaction(GameManager.rm.PlayerMaterials[pID]); }
+
+    }
+
 
     [Rpc(RpcSources.All, RpcTargets.All)]
     public void RPC_InitUnits(int _faction,int _unitCount)
@@ -167,16 +165,16 @@ public class PlayerControl : NetworkBehaviour
 
         int count = 0;
 
-        while (count < _unitCount && GetUnits().Count < _unitCount)
+        while (count < _unitCount && GetUnits().Count < GameConstants.MAX_UNITS)
         {
             GameObject clone = GetUnitToSpawn();
 
 
-            units.Add(clone.GetComponent<Unit>());
+            GetUnits().Add(clone.GetComponent<Unit>());
 
-            Vector3 spawnPos = spawnpoint.position + (spawnpoint.right * count * unitSpawnOffset) - ((spawnpoint.forward * count * unitSpawnOffset) * (count % 2));
+            Vector3 spawnPos = spawnpoint.position + (spawnpoint.right * GetUnits().Count * unitSpawnOffset) - ((spawnpoint.forward * GetUnits().Count * unitSpawnOffset) * (GetUnits().Count % 2));
 
-            clone.GetComponent<Unit>().Init(pID, units.Count, GameManager.rm.PlayerMaterials[pID], spawnPos, spawnpoint.rotation);
+            clone.GetComponent<Unit>().Init(pID, tracker_idCount, GameManager.rm.PlayerMaterials[pID], spawnPos, spawnpoint.rotation);
             clone.GetComponent<Unit>().owner = this;
             clone.GetComponent<Unit>().SetCount(2);
             count++;
@@ -186,6 +184,25 @@ public class PlayerControl : NetworkBehaviour
         if (GetVisualOrders()) { GetVisualOrders().SetFaction(GameManager.rm.PlayerMaterials[pID]); }
 
     }
+
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_UpdateUnitStrength(int _faction, int _unitId, int _newCount)
+    {
+
+        Unit unitToChange = GetUnit(_unitId);
+
+
+        if (unitToChange && unitToChange.faction == _faction)
+        {
+            unitToChange.SetCount(_newCount);
+        }
+
+        
+        if (GetVisualOrders()) { GetVisualOrders().SetFaction(GameManager.rm.PlayerMaterials[_faction]); }
+
+    }
+
 
 
 
@@ -283,44 +300,33 @@ public class PlayerControl : NetworkBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (camFollow)
         {
-            SetPendingCommand(Unit_Command.attack);
-        }
+            Vector3 camDirection = new Vector3(0,0, 0);
 
-         if (Input.GetKeyDown(KeyCode.S))
-        {
-            SetPendingCommand(Unit_Command.attack_move);
-        }
-
-         if (Input.GetKeyDown(KeyCode.D))
-        {
-            SetPendingCommand(Unit_Command.move);
-        }
-
-         if (Input.GetKeyDown(KeyCode.F))
-        {
-          
-        }
-
-         if (Input.GetKeyDown(KeyCode.Q))
-        {
-            SetPendingCommand(Unit_Command.merge);
-        }
-
-         if (Input.GetKeyDown(KeyCode.W))
-        {
-            if (SelectedUnit())
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
- 
-                SetPendingCommand(Unit_Command.none);
+                camDirection = new Vector3(0,0, 1);
             }
-            else
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
-                SetPendingCommand(Unit_Command.split);
+                camDirection = new Vector3(-1, 0, camDirection.z);
             }
-            
+
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                camDirection = new Vector3(camDirection.x, 0, -1);
+            }
+
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+                camDirection = new Vector3(1, 0, camDirection.z);
+            }
+
+            camFollow.SetPositionOffset( camDirection);
         }
+        
+
 
 
     }
@@ -462,14 +468,7 @@ public class PlayerControl : NetworkBehaviour
 
         Debug.Log(" RPC_IssueCommand + " + _cmd.ToString() + "Unit: " + _unitId + "   " + _point.ToString());
 
-        if (GetVisualOrders())
-        {
-            
-            GetVisualOrders().OrderIssued(new Vector3(_point.x,0,_point.z),_cmd);
-        
-        
-        }
-
+      
 
 
         if (GetUnits().Count == 0) { return; }
@@ -483,7 +482,7 @@ public class PlayerControl : NetworkBehaviour
 
         PlayerControl targetPlayer = null;
 
-        if (actingUnit == null || actingUnit.gameObject.activeSelf == false) { return; }
+        if (actingUnit == null || actingUnit.gameObject.activeSelf == false || actingUnit.faction != faction) { return; }
 
         if (_cmd == Unit_Command.move)
         {
@@ -491,6 +490,11 @@ public class PlayerControl : NetworkBehaviour
             actingUnit.SetCommand(Unit_Command.move);
 
             actingUnit.SetNewDestination(_point);
+
+            if (GetVisualOrders())
+            {
+                GetVisualOrders().OrderIssued(new Vector3(_point.x, 0, _point.z), _cmd);
+            }
 
         }
         if (_cmd == Unit_Command.attack_move)
@@ -535,6 +539,10 @@ public class PlayerControl : NetworkBehaviour
                     actingUnit.SetNewDestination(targetUnit.transform.position);
                 }
 
+                if (GetVisualOrders())
+                {
+                    GetVisualOrders().OrderIssued(new Vector3(targetUnit.transform.position.x, 0, targetUnit.transform.position.z), _cmd);
+                }
 
             }
 
@@ -559,6 +567,12 @@ public class PlayerControl : NetworkBehaviour
                     actingUnit.SetTarget(targetUnit);
 
                     actingUnit.SetNewDestination(targetUnit.transform.position);
+
+                    if (GetVisualOrders())
+                    {
+                        GetVisualOrders().OrderIssued(new Vector3(targetUnit.transform.position.x, 0, targetUnit.transform.position.z), _cmd);
+                    }
+
                 }
 
                 
@@ -644,6 +658,7 @@ public class PlayerControl : NetworkBehaviour
     public void RPC_StartCombat(int _attackerFaction, int _attackerID, float _atkRoll, int _defenderFaction, int _defenderID, float _defRoll)
     {
 
+
         GameManager.combatManager.StartCombat(_attackerFaction, _attackerID, _atkRoll,_defenderFaction, _defenderID, _defRoll);
     }
 
@@ -657,6 +672,12 @@ public class PlayerControl : NetworkBehaviour
         _unit.UpdateCount(_incomingUnit.unitCount);
 
         _unit.SetCommand(Unit_Command.none);
+
+        if (GetUnits().Contains(_incomingUnit))
+        { 
+        GetUnits().Remove(_incomingUnit);
+
+        }
 
         _incomingUnit.De_Init();
     
@@ -793,7 +814,7 @@ public class PlayerControl : NetworkBehaviour
 
         if (GetCameraFollow() && selectedUnit)
         {
-            GetCameraFollow().listenerTf = selectedUnit.transform;
+            GetCameraFollow().SetTransformToFollow( selectedUnit.transform);
         }
 
         if (SelectedUnit() && SelectedUnit().Visuals())

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using static GameState;
+using TMPro;
 
 public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
@@ -17,8 +18,11 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 	[Networked]
 	public float gameTime { get; set; }
-	private float turnTime = 2; 
-	private float tracker_turnTime; 
+
+	private float timestamp_lastBonus;
+	private float timestamp_lastCombat;
+
+	public float tracker_turnTime; 
 
 	[Networked]
 	public int winningFaction { get; set; }
@@ -77,7 +81,22 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 		starter.Shutdown();
 	}
 
-    public override void FixedUpdateNetwork()
+	public void Update()
+	{
+
+		if (Runner && Runner.IsServer)
+		{
+			if (State.Current == EGameState.Play)
+			{
+				//TrackTurnTime();
+			}
+		}
+
+		
+	}
+
+
+	public override void FixedUpdateNetwork()
     {
 		
 		if (Runner.IsServer)
@@ -99,25 +118,96 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 	{
 		tracker_turnTime += Time.deltaTime;
 
-		if (tracker_turnTime >= turnTime)
+		if (tracker_turnTime - timestamp_lastCombat >= GameConstants.TURNLENGTH_COMBAT)
 		{
-			tracker_turnTime = 0;
+			timestamp_lastCombat = tracker_turnTime;
+
 			float atkRoll = Random.Range(0, 10.0f);
 			float defRoll = Random.Range(0, 10.0f);
 			RPC_ConcludeCombatTurn(atkRoll,defRoll);
 		}
+		 if (tracker_turnTime - timestamp_lastBonus >= GameConstants.TURNLENGTH_BONUS)
+		{
+			timestamp_lastBonus = tracker_turnTime;
+
+
+			ConcludeBonusTurn();
+		}
 
 	}
+
+	public void ResetCombatTurnTime()
+	{
+		//if no combats are in the list the timer could be at any value, reset it so the new combat takes the default time
+		timestamp_lastCombat = tracker_turnTime;
+	}
+
 
 	[Rpc(RpcSources.All, RpcTargets.All)]
 	public void RPC_ConcludeCombatTurn(float _atkRoll, float _defRoll)
 	{
+		//the combat manager checks the oldest active combat and resolves a round using these values as the roll
 		combatManager.ConcludeCombatTurn(_atkRoll, _defRoll);
 
 	}
 
 
-		public void Server_StartGame()
+
+
+
+
+
+
+
+	public void ConcludeBonusTurn()
+	{
+		//
+
+		foreach (ControlPoint el in GetObjectives())
+		{
+
+			if (el.controllerFaction != -1)
+			{
+
+				PlayerControl controllingPlayer = GetPlayer(el.controllerFaction);
+
+				if (controllingPlayer)
+				{
+					if (el.bonus == bonus_type.new_unit)
+					{
+						controllingPlayer.RPC_InitUnits(controllingPlayer.faction,1);
+
+
+					}
+					else if(el.bonus == bonus_type.power)
+					{
+
+
+						foreach (Unit unitOnPoint in el.GetUnits())
+						{
+							if (unitOnPoint.faction == controllingPlayer.faction)
+							{
+								unitOnPoint.UpdateCount((int)el.bonusCombatStrength);
+
+								controllingPlayer.RPC_UpdateUnitStrength(controllingPlayer.faction, unitOnPoint.id, unitOnPoint.Count());
+								
+							}
+						}
+					}
+
+
+				}
+
+			}
+
+		
+		}
+
+	}
+
+
+
+	public void Server_StartGame()
 	{
 		if (Runner.IsServer == false)
 		{
@@ -197,9 +287,12 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 			}
 		}
 
-
+		DisplaySelectedUnitInfo();
 		//check that the controller 'player' isnt neutral [e.g. no players control it]
 		if (winningFaction == -1) { return; }
+
+	
+
 
 		if (PlayerObjectiveTracker()[winningFaction] >= winCondition)
 		{ Debug.Log(winningFaction + " Wins the Game!"); }
@@ -238,7 +331,56 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 	}
 
 
+	public PlayerControl GetPlayer(int _faction)
+	{
 
+		PlayerControl newPlayer = null;
+
+		PlayerRegistry.ForEach(pObj =>
+		{
+			if (pObj.Index == _faction)
+			{
+				newPlayer = pObj.GetComponent<PlayerControl>();
+			}
+
+
+		});
+
+		return newPlayer;
+	}
+
+
+
+	public TextMeshPro debug_scoreDisplay;
+
+	public void DisplaySelectedUnitInfo()
+	{
+	
+		if (debug_scoreDisplay)
+		{
+
+			string winningText = "";
+
+			PlayerRegistry.ForEach(pObj =>
+			{
+				if (PlayerObjectiveTracker().ContainsKey(pObj.Index))
+				{
+					winningText += "P: " + pObj.Index + "Controls " + PlayerObjectiveTracker()[pObj.Index] + " Objectives \n";
+				}
+
+			});
+
+			debug_scoreDisplay.text = winningText;
+
+			
+		}
+		else
+		{
+			debug_scoreDisplay = GameObject.Find("debugtext_Objective").GetComponent<TextMeshPro>();
+		}
+
+
+	}
 
 
 

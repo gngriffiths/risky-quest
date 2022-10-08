@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class CombatManager : MonoBehaviour
     /// 
     /// </summary>
 
+    public ScrollingText scrollingText;
 
     public List<Combat> activeCombats;
 
@@ -47,6 +49,12 @@ public class CombatManager : MonoBehaviour
 
         if (attacker != null && defender != null)
         {
+
+            if (GetCombats().Count == 0)
+            {
+                GameManager.Instance.ResetCombatTurnTime();
+            }
+
             Combat combat = new Combat(GameManager.Instance.gameTime,attacker, defender);
 
             GetCombats().Insert(0,combat);
@@ -82,19 +90,87 @@ public class CombatManager : MonoBehaviour
 
         if (GetCombats().Count > 0)
         {
+
             Combat combat = GetCombats()[GetCombats().Count - 1];
-            Debug.Log("GetCombats().Count > 0) ");
-            if (Mathf.Ceil(_defRoll) + combat.defender.Count() > Mathf.Floor(_atkRoll) + combat.attacker.Count())
+
+            Unit attacker = combat.attacker;
+            Unit defender = combat.defender;
+
+            string line = "Combat: ";
+        
+            
+
+
+
+
+            //if one of the units no longer exists on the board
+            if (attacker == null || defender == null || attacker.gameObject.activeSelf == false || defender.gameObject.activeSelf == false) 
             {
-                combat.attacker.UpdateCount(-1);
-            }
-            else
-            {
-                combat.defender.UpdateCount(-1);
+                line += " Attacker is null " + (attacker == null);
+                line += " Defender is null " + (attacker == null);
+                NewLine(line);
+                //remove this combat and then resolve the next one in order
+                GetCombats().RemoveAt(GetCombats().Count - 1);
+                ConcludeCombatTurn(_atkRoll, _defRoll);
+                return;
             }
 
+
+            //TODO: apply bonuses
+            float modifiedAttackRoll = _atkRoll;
+            float modifiedDefenseRoll = _defRoll;
+
+            if (attacker.GetControlPoint() && attacker.GetControlPoint().controllerFaction == attacker.faction)
+            {
+                modifiedAttackRoll += attacker.GetControlPoint().bonusCombatStrength;
+            }
+
+            if (defender.GetControlPoint() && defender.GetControlPoint().controllerFaction == defender.faction)
+            {
+                modifiedDefenseRoll += defender.GetControlPoint().bonusCombatStrength;
+            }
+
+
+            combat.defender.Visuals().StartAttack();
+
+            //Check that the attacker is in range
+            //the defender still attacks to punish the attacker from trying to hit and run
+
+            float rng = Vector3.Distance(attacker.transform.position, defender.transform.position);
+
+            if (rng <= combat.attacker.range)
+            {
+
+                line += " Attacker rolls(bonus)[count] "  + Math.Round(_atkRoll, 2) + "(" + Math.Round(modifiedAttackRoll, 2) + ")" + "[" + attacker.Count() + "] \n" ;
+                line += " Defender rolls(bonus)[count] " + Math.Round(_defRoll, 2) + "_(" + Math.Round(modifiedDefenseRoll, 2) + ")_" + "[" + defender.Count() + "] \n" ;
+
+
+
+                combat.attacker.Visuals().StartAttack();
+
+
+
+                if (Mathf.Ceil(modifiedDefenseRoll) + combat.defender.Count() > Mathf.Floor(modifiedAttackRoll) + combat.attacker.Count())
+                {
+                    combat.attacker.UpdateCount(-1);
+                }
+                else
+                {
+                    combat.defender.UpdateCount(-1);
+                }
+
+
+                
+            }
 
             combat.attacker.UpdateCount(-1);
+
+            line += " Attacker remaining [count] " + "[" + attacker.Count() + "] \n";
+            line += " Defender remaining [count] "  + "[" + defender.Count() + "] ";
+
+
+            NewLine(line);
+
 
             GetCombats().RemoveAt(GetCombats().Count - 1);
 
@@ -114,8 +190,13 @@ public class CombatManager : MonoBehaviour
             }
             else
             {
-                //move it to the back of the line
-                GetCombats().Insert(0,combat);
+                if (rng <= combat.attacker.range)
+                {
+                    //if in range
+                    //move it to the back of the line
+                    GetCombats().Insert(0, combat);
+                }
+                    
             }
 
         }
@@ -123,7 +204,13 @@ public class CombatManager : MonoBehaviour
     }
 
 
-
+    public void NewLine(string _newLine)
+    {
+        if (scrollingText)
+        {
+            scrollingText.NewLine(_newLine);
+        }
+    }
 
 
     public PlayerControl GetPlayer(int _faction)

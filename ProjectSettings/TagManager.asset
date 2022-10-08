@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ground
   - unit
+  - ground
   layers:
   - Default
   - TransparentFX
@@ -13,24 +13,15 @@ TagManager:
   - 
   - Water
   - UI
-  - Vehicle
-  - 
-  - MainUI
-<<<<<<< HEAD
-  - MapUI
-  - GhostPassable
-  - Ghost
   - Unit
   - Ground
-  - ControlPoint
-=======
   - 
   - 
   - 
   - 
   - 
   - 
->>>>>>> c422cfa60d4e5bc4abf05d3ecd0bce580460561c
+  - 
   - 
   - 
   - 

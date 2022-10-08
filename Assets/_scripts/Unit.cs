@@ -59,7 +59,7 @@ public class Unit : MonoBehaviour
         transform.rotation = _rot;
 
 
-
+        SetCooldown(-1);
 
         visuals = GetComponent<Visual_Unit>();
 
@@ -92,7 +92,7 @@ public class Unit : MonoBehaviour
         faction = -1;
         id = -1;
         unitCount = -1;
-
+        SetCooldown(-1);
         transform.parent = GameManager.Instance.GetUnitPool();
 
         gameObject.SetActive(false);
@@ -155,7 +155,7 @@ public class Unit : MonoBehaviour
 
                             SetCooldown(GameConstants.GCD_UNITACTION);
                             GetOwner().StartCombat(this, GetTarget());
-                        SetCommand(Unit_Command.none);
+                            //SetCommand(Unit_Command.none);
                         }
                     }
                     else if (ActiveCommand() == Unit_Command.merge)
@@ -186,6 +186,51 @@ public class Unit : MonoBehaviour
         UpdateCooldown(-Time.deltaTime);
 
     }
+
+
+
+
+    public void OnTriggerEnter(Collider other)
+    {
+        HandleTriggerEnter(other);
+
+    }
+
+
+    public void OnTriggerExit(Collider other)
+    {
+
+        HandleTriggerExit(other);
+    }
+
+
+
+    public virtual void HandleTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<ControlPoint>() != null) { SetControlPoint(other.GetComponent<ControlPoint>()); }
+
+    }
+    public virtual void HandleTriggerExit(Collider other)
+    {
+        if (other.GetComponent<ControlPoint>() != null && GetControlPoint() == other.GetComponent<ControlPoint>()) { SetControlPoint(null); }
+    }
+
+
+
+
+    public void SetControlPoint(ControlPoint _point)
+    { current_controlPoint = _point; }
+
+
+    public ControlPoint GetControlPoint( )
+    { return current_controlPoint ; }
+
+
+
+
+
+
+
 
 
 
@@ -285,16 +330,6 @@ public class Unit : MonoBehaviour
 
 
 
-
-    public ControlPoint GetCurrentControlPoint()
-    {
-        return current_controlPoint;
-    }
-
-    public void SetCurrentControlPoint(ControlPoint _newPoint)
-    {
-         current_controlPoint = _newPoint;
-    }
 
     public NavMeshAgent NavAgent()
     {

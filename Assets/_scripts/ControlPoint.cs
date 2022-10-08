@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
+public enum bonus_type { power,new_unit,speed}
+
 public class ControlPoint : MonoBehaviour
 {
+    public bonus_type bonus;
     public float zoneRadius;
+    public float bonusCombatStrength;
+
     public PlayerControl playerA; 
     public PlayerControl player1;
     
@@ -81,7 +87,7 @@ public class ControlPoint : MonoBehaviour
 
             }
 
-            if (factionInControl != -1)
+            if (factionInControl != -1 && PlayerControlStrength()[factionInControl] > 0)
             {
 
                 controllerStrength = PlayerControlStrength()[factionInControl];
@@ -95,8 +101,10 @@ public class ControlPoint : MonoBehaviour
         }
         else
         {
+
             controllerFaction = -1;
             controllerStrength = 0;
+            GameManager.Instance.CheckForVictory(this);
         }
 
 
@@ -170,7 +178,7 @@ public class ControlPoint : MonoBehaviour
         {
             GetUnits().Add(other.GetComponent<Unit>());
         }
-        other.GetComponent<Unit>().SetCurrentControlPoint(this);
+       // other.GetComponent<Unit>().SetCurrentControlPoint(this);
 
         CheckForControl();
     }

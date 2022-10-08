@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4313540438965738004}
   - component: {fileID: 712491651189124230}
   - component: {fileID: 7187587625228698564}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4280557834441367305}
   - component: {fileID: 4112550343477570725}
   - component: {fileID: 54428243351246324}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 4171149114680181027}
   - component: {fileID: 1875731784103171524}
   - component: {fileID: 3719158154703351402}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 4014040733935828869}
   - component: {fileID: 689801228222790590}
   - component: {fileID: 7428743962445391223}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 6915156384248443933}
   - component: {fileID: 3091582385560790925}
   - component: {fileID: 6823231708790779137}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -428,7 +428,7 @@ GameObject:
   - component: {fileID: 6777615991809199322}
   - component: {fileID: 4160397290940867211}
   - component: {fileID: 3624839679216857972}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,7 +511,7 @@ GameObject:
   - component: {fileID: 1835469939708056701}
   - component: {fileID: 6711981755930672873}
   - component: {fileID: 3724939770895800779}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: wheels (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -594,7 +594,7 @@ GameObject:
   - component: {fileID: 2549712074096491802}
   - component: {fileID: 8131600529577824385}
   - component: {fileID: 874687993565486059}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -677,7 +677,7 @@ GameObject:
   - component: {fileID: 7636992115463134454}
   - component: {fileID: 6365243364480868729}
   - component: {fileID: 1864545628653771192}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -760,7 +760,7 @@ GameObject:
   - component: {fileID: 3169254842594357158}
   - component: {fileID: 3557459176957404984}
   - component: {fileID: 96605287576175276}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -844,7 +844,7 @@ GameObject:
   - component: {fileID: 8503049967257361598}
   - component: {fileID: 3580002850200273063}
   - component: {fileID: 1464845425901925247}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -928,7 +928,7 @@ GameObject:
   - component: {fileID: 178793383593463640}
   - component: {fileID: 8550799938936091581}
   - component: {fileID: 5947679554789760908}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1012,7 +1012,7 @@ GameObject:
   - component: {fileID: 1368078823965093608}
   - component: {fileID: 5027236228757892825}
   - component: {fileID: 51935873124001463}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1097,7 +1097,7 @@ GameObject:
   - component: {fileID: 8560198468279905240}
   - component: {fileID: 1842782137991620760}
   - component: {fileID: 7239400910315194360}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1193,7 +1193,7 @@ GameObject:
   - component: {fileID: 8279901762977128461}
   - component: {fileID: 4078958871519896311}
   - component: {fileID: 5544896143642631601}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1276,7 +1276,7 @@ GameObject:
   - component: {fileID: 1316717147929090772}
   - component: {fileID: 2949196511649628039}
   - component: {fileID: 3175214996903141979}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1359,7 +1359,7 @@ GameObject:
   - component: {fileID: 1804213190315780872}
   - component: {fileID: 1823524724647028464}
   - component: {fileID: 880133475767727838}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1443,7 +1443,7 @@ GameObject:
   - component: {fileID: 6389256022181539327}
   - component: {fileID: 1463533980075910647}
   - component: {fileID: 1593564678095058312}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1528,7 +1528,7 @@ GameObject:
   - component: {fileID: 7306033408738681637}
   - component: {fileID: 5679742992496712372}
   - component: {fileID: 5679742992496712373}
-  m_Layer: 12
+  m_Layer: 6
   m_Name: unit
   m_TagString: unit
   m_Icon: {fileID: 0}
@@ -1623,7 +1623,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5679742992496712369}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.2963028, y: 0.44369072, z: 0.6115122}
@@ -1640,7 +1640,7 @@ GameObject:
   - component: {fileID: 5679742992807314468}
   - component: {fileID: 5679742992807314467}
   - component: {fileID: 5679742992807314466}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1734,7 +1734,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5422998591500426006}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: countindicators
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1778,7 +1778,7 @@ GameObject:
   - component: {fileID: 8577121269202251558}
   - component: {fileID: 8704106929889223319}
   - component: {fileID: 6655620319525372312}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1862,7 +1862,7 @@ GameObject:
   - component: {fileID: 6435886642274411793}
   - component: {fileID: 1247623739462184354}
   - component: {fileID: 1483345246052778762}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1946,7 +1946,7 @@ GameObject:
   - component: {fileID: 3312167018717808655}
   - component: {fileID: 1746459474080765923}
   - component: {fileID: 7143380405751496250}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2029,7 +2029,7 @@ GameObject:
   - component: {fileID: 2161452800320380829}
   - component: {fileID: 1946462274981241641}
   - component: {fileID: 3548992209605877342}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2112,7 +2112,7 @@ GameObject:
   - component: {fileID: 7151815552635220203}
   - component: {fileID: 3413782888318232963}
   - component: {fileID: 5760372770568170878}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2195,7 +2195,7 @@ GameObject:
   - component: {fileID: 913022323311042433}
   - component: {fileID: 623654363865073704}
   - component: {fileID: 2671151670402682302}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2279,7 +2279,7 @@ GameObject:
   - component: {fileID: 8226772741535487216}
   - component: {fileID: 7847197978289538554}
   - component: {fileID: 175293075888943606}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2362,7 +2362,7 @@ GameObject:
   - component: {fileID: 122636591982057427}
   - component: {fileID: 6218461740647841887}
   - component: {fileID: 38627558608901314}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: particles_attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7175,7 +7175,7 @@ GameObject:
   - component: {fileID: 66383955810784439}
   - component: {fileID: 4233972842786128723}
   - component: {fileID: 7809347147460421709}
-  m_Layer: 2
+  m_Layer: 6
   m_Name: Cylinder (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

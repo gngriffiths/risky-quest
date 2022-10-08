@@ -50,10 +50,10 @@ public class Visual_IssueOrders : MonoBehaviour
     {
         if (timer != -1)
         {
-
-            if (timer < 0)
+            timer -= Time.deltaTime;
+            if (timer <= 0)
             {
-
+                DisableAllOrders();
                 timer = -1;
             }
         }
@@ -91,7 +91,7 @@ public class Visual_IssueOrders : MonoBehaviour
             merge.transform.position = _point;
         }
 
-
+        timer = lifeTime;
 
     }
 
