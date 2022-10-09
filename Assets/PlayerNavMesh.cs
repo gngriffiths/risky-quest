@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class PlayerNavMesh : MonoBehaviour
 {
-    [SerializeField] Transform transformTarget = null;
+    public Transform TransformTarget = null;
 
     NavMeshAgent navMeshAgent;
 
@@ -16,6 +14,9 @@ public class PlayerNavMesh : MonoBehaviour
 
     private void Update()
     {
-        navMeshAgent.SetDestination(transformTarget.position);
+        if (TransformTarget == null)
+            return;
+        
+        navMeshAgent.SetDestination(TransformTarget.position);
     }
 }
