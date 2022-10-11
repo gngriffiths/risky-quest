@@ -6,6 +6,8 @@ public static class GameConstants
 {
 
     //GCD == Global cooldown
+    public static float UNIT_SCALE_MAGNITUDE = 5;
+
     public static float GCD_UNITACTION = 3.5f;
 
     public static float TURNLENGTH_COMBAT = 1.0f;

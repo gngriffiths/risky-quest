@@ -3156,7 +3156,7 @@ MonoBehaviour:
   ServerPort: 27015
   DefaultRoomName: test1
   AlwaysShowStats: 0
-  InitialScenePath: Assets/Scenes/thrash_current.unity
+  InitialScenePath: Assets/Scenes/oct9.unity
   _currentStage: 0
 --- !u!4 &600148476
 Transform:

@@ -69,8 +69,8 @@ public class CombatManager : MonoBehaviour
             // current rolls against each other and the loser takes 1 dmg
             // then the attack takes 1 regardless of the outcome
 
-            attacker.transform.LookAt(defender.transform.position);
-            defender.transform.LookAt(attacker.transform.position);
+         //   attacker.transform.LookAt(defender.transform.position);
+           // defender.transform.LookAt(attacker.transform.position);
 
           //  attacker.SetCooldown(13.0f);
             attacker.Visuals().StartAttack();
@@ -130,7 +130,7 @@ public class CombatManager : MonoBehaviour
                 modifiedDefenseRoll += defender.GetControlPoint().bonusCombatStrength;
             }
 
-
+            //defender.transform.LookAt(attacker.transform.position);
             combat.defender.Visuals().StartAttack();
 
             //Check that the attacker is in range
@@ -140,6 +140,9 @@ public class CombatManager : MonoBehaviour
 
             if (rng <= combat.attacker.range)
             {
+              //  attacker.transform.LookAt(defender.transform.position);
+                
+
 
                 line += " Attacker rolls(bonus)[count] "  + Math.Round(_atkRoll, 2) + "(" + Math.Round(modifiedAttackRoll, 2) + ")" + "[" + attacker.Count() + "] \n" ;
                 line += " Defender rolls(bonus)[count] " + Math.Round(_defRoll, 2) + "_(" + Math.Round(modifiedDefenseRoll, 2) + ")_" + "[" + defender.Count() + "] \n" ;
@@ -152,18 +155,18 @@ public class CombatManager : MonoBehaviour
 
                 if (Mathf.Ceil(modifiedDefenseRoll) + combat.defender.Count() > Mathf.Floor(modifiedAttackRoll) + combat.attacker.Count())
                 {
-                    combat.attacker.UpdateCount(-1);
+                    combat.attacker.GetBottomFollower().TakeDamage(1);
                 }
                 else
                 {
-                    combat.defender.UpdateCount(-1);
+                    combat.defender.GetBottomFollower().TakeDamage(1);
                 }
 
 
                 
             }
 
-            combat.attacker.UpdateCount(-1);
+            combat.attacker.GetBottomFollower().TakeDamage(1);
 
             line += " Attacker remaining [count] " + "[" + attacker.Count() + "] \n";
             line += " Defender remaining [count] "  + "[" + defender.Count() + "] ";
@@ -176,15 +179,15 @@ public class CombatManager : MonoBehaviour
 
             if (combat.attacker.Count() <= 0 || combat.defender.Count() <= 0)
             {
-                if (combat.attacker.Count() <= 0)
-                {
-                    combat.attacker.De_Init();
-                }
+                //if (combat.attacker.Count() <= 0)
+                //{
+                //    combat.attacker.De_Init();
+                //}
 
-                if (combat.defender.Count() <= 0)
-                {
-                    combat.defender.De_Init();
-                }
+                //if (combat.defender.Count() <= 0)
+                //{
+                //    combat.defender.De_Init();
+                //}
 
 
             }

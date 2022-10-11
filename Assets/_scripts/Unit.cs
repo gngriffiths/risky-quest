@@ -33,7 +33,13 @@ public class Unit : MonoBehaviour
 
 
     public PlayerControl owner;
+
     private Unit target;
+
+    public Unit leader;
+    public Unit follower;
+
+    private float followRange=1.5f;
 
     private float timer_cooldown;
 
@@ -50,6 +56,9 @@ public class Unit : MonoBehaviour
     {
         faction = _faction;
         id = _id;
+
+        owner = GameManager.Instance.GetPlayer(faction);
+
        // unitCount = 1;
 
         NavAgent().speed = moveSpeed;
@@ -67,6 +76,12 @@ public class Unit : MonoBehaviour
 
         gameObject.SetActive(true);
 
+        if (owner)
+        { 
+            transform.parent = owner.transform;
+
+        }
+        transform.localScale = Vector3.one * GameConstants.UNIT_SCALE_MAGNITUDE;
 
     }
 
@@ -89,11 +104,30 @@ public class Unit : MonoBehaviour
 
     public void De_Init()
     {
+        if (GetFollower())
+        {
+            GetFollower().SetLeader(null);
+        }
+
+        if (GetLeader())
+        {
+            GetLeader().SetFollower(null);
+        }
+
+
+
         faction = -1;
         id = -1;
-        unitCount = -1;
+
+        SetCount(-1);
         SetCooldown(-1);
-        transform.parent = GameManager.Instance.GetUnitPool();
+        command = Unit_Command.none;
+
+        SetNewDestination(transform.position);
+
+        owner = null;
+
+     transform.parent = GameManager.Instance.GetUnitPool();
 
         gameObject.SetActive(false);
 
@@ -102,7 +136,7 @@ public class Unit : MonoBehaviour
 
 
 
-    public void Update_Visuals( )
+    public void Update_Visuals()
     {
         //NOTE: currently basic/debug visual references. Intended to be replaced with the final art elements
 
@@ -123,9 +157,15 @@ public class Unit : MonoBehaviour
     void FixedUpdate()
     {
 
-       
 
-        if ( GetTarget() && CurrentCooldown() <= 0)
+        if (GetLeader() != null) 
+        {
+            if (DistanceTo(GetLeader().transform.position) > followRange)
+            {
+               SetNewDestination(GetLeader().transform.position - (GetLeader().transform.forward * followRange));
+            }
+        }
+        else if ( GetTarget() && CurrentCooldown() <= 0)
         {
            
 
@@ -155,24 +195,32 @@ public class Unit : MonoBehaviour
 
                             SetCooldown(GameConstants.GCD_UNITACTION);
                             GetOwner().StartCombat(this, GetTarget());
-                            //SetCommand(Unit_Command.none);
+                            SetCommand(Unit_Command.none);
                         }
                     }
-                    else if (ActiveCommand() == Unit_Command.merge)
-                    {
-                        if (GetOwner())
-                        {
-                            SetCooldown(GameConstants.GCD_UNITACTION);
-                            GetOwner().MergeUnit(this, GetTarget());
+                    //else if (ActiveCommand() == Unit_Command.merge)
+                    //{
+                    //    if (GetOwner())
+                    //    {
+                    //        SetCooldown(GameConstants.GCD_UNITACTION);
+                    //        GetOwner().MergeUnit(this, GetTarget());
 
-                        }
-                    }
+                    //    }
+                    //}
 
             }
 
             
 
 
+
+
+        }
+
+        if (DistanceToDestination() <= range)
+        {
+
+            NavAgent().speed = 0;
 
 
         }
@@ -186,6 +234,26 @@ public class Unit : MonoBehaviour
         UpdateCooldown(-Time.deltaTime);
 
     }
+
+
+
+    public void TakeDamage(int _dmg)
+    {
+        UpdateCount(-_dmg);
+        
+
+
+        Update_Visuals();
+
+        if (Count() <= 0 && owner)
+        {
+            owner.UnitDie(id);
+        }
+
+    }
+
+
+
 
 
 
@@ -244,6 +312,7 @@ public class Unit : MonoBehaviour
 
             if (NavMesh.SamplePosition(_dest, out hit, 1f, NavMesh.AllAreas))
             {
+                NavAgent().speed = moveSpeed;
                 NavAgent().SetDestination(_dest);
             }
 
@@ -265,7 +334,10 @@ public class Unit : MonoBehaviour
         return NavAgent().remainingDistance;
     }
 
-
+    public float DistanceTo(Vector3 _target)
+    {
+        return Vector3.Distance(transform.position, _target);
+    }
 
 
 
@@ -275,6 +347,67 @@ public class Unit : MonoBehaviour
     public void SetTarget(Unit _unit)
     { target = _unit; }
 
+
+    public Unit GetTopLeader()
+    {
+          if (leader == null) { return this; }
+        //to avoid possible infinite loops
+        if (leader.GetLeader() == this) { return this; }
+
+        return leader.GetLeader();
+    }
+    public Unit GetBottomFollower()
+    {
+        if (follower == null) { return this; }
+        //to avoid possible infinite loops
+        if (follower.GetFollower() == this) { return this; }
+
+        return follower.GetBottomFollower();
+    }
+
+    public Unit GetLeader()
+    {
+        //if (leader == null) { return this; }
+        ////to avoid possible infinite loops
+        //if (leader.GetLeader() == this) { return this; }
+
+        return leader; 
+    }
+
+    public void SetLeader(Unit _unit)
+    {
+       
+        if (_unit != this)
+        {
+            if (leader && leader.GetFollower() == this) { leader.SetFollower(null); }
+
+            leader = _unit;
+            if (leader) { leader.SetFollower(this); }
+        }
+        else 
+        {
+            if (leader && leader.GetFollower() == this) { leader.SetFollower(null); }
+            leader = null;
+        }
+        
+    }
+
+
+    public Unit GetFollower()
+    {
+        //if (follower == null) { return this; }
+        return follower; 
+    
+    }
+
+    public void SetFollower(Unit _unit)
+    {
+        if (_unit != this) { follower = _unit; }
+        else
+        {
+            follower = null;
+        }
+    }
 
 
     public Unit_Command ActiveCommand( )

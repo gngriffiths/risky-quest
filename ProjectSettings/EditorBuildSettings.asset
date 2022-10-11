@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/game_thrash.unity
+    path: Assets/Scenes/thrash_current.unity
     guid: 8063647641f0e1a47b25ea6d9d0802f8
   m_configObjects: {}

@@ -81,6 +81,28 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 		starter.Shutdown();
 	}
 
+	public void ShowPlayerCount()
+	{
+		if (debug_scoreDisplay)
+		{
+			debug_scoreDisplay.text = PlayerRegistry.Count.ToString() + " Players Connected";
+		}
+		else
+		{
+			if (GameObject.Find("debugtext_Objective"))
+			{ debug_scoreDisplay = GameObject.Find("debugtext_Objective").GetComponent<TextMeshPro>(); }
+			
+		}
+
+	}
+
+
+
+
+
+
+
+
 	public void Update()
 	{
 
@@ -287,7 +309,7 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 			}
 		}
 
-		DisplaySelectedUnitInfo();
+		DisplayScore();
 		//check that the controller 'player' isnt neutral [e.g. no players control it]
 		if (winningFaction == -1) { return; }
 
@@ -353,7 +375,7 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 	public TextMeshPro debug_scoreDisplay;
 
-	public void DisplaySelectedUnitInfo()
+	public void DisplayScore()
 	{
 	
 		if (debug_scoreDisplay)
@@ -376,7 +398,8 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 		}
 		else
 		{
-			debug_scoreDisplay = GameObject.Find("debugtext_Objective").GetComponent<TextMeshPro>();
+			if (GameObject.Find("debugtext_Objective"))
+			{ debug_scoreDisplay = GameObject.Find("debugtext_Objective").GetComponent<TextMeshPro>(); }
 		}
 
 
@@ -401,7 +424,11 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
     void INetworkRunnerCallbacks.OnConnectFailed(NetworkRunner runner, Fusion.Sockets.NetAddress remoteAddress, Fusion.Sockets.NetConnectFailedReason reason) { }
 	void INetworkRunnerCallbacks.OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
 	void INetworkRunnerCallbacks.OnDisconnectedFromServer(NetworkRunner runner) { }
-	void INetworkRunnerCallbacks.OnPlayerJoined(NetworkRunner runner, PlayerRef player) { Debug.Log("OnPlayerJoined"); }
+	void INetworkRunnerCallbacks.OnPlayerJoined(NetworkRunner runner, PlayerRef player) 
+	{ 
+		Debug.Log("OnPlayerJoined");
+		ShowPlayerCount();
+	}
 	void INetworkRunnerCallbacks.OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
 	void INetworkRunnerCallbacks.OnInput(NetworkRunner runner, NetworkInput input) { }
 	void INetworkRunnerCallbacks.OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
