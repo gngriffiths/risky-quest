@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Visual_Unit : MonoBehaviour
@@ -9,8 +7,20 @@ public class Visual_Unit : MonoBehaviour
 
     public Transform parent_unitCountIndicators;
 
-    public ParticleSystem attack;
+    //public ParticleSystem attack;
 
+    VehicleVFX vehicleVFX
+    {
+        get
+        {
+            {
+                if (vehicleVFXCached == null)
+                    vehicleVFXCached = GetComponentInChildren<VehicleVFX>();
+                return vehicleVFXCached;
+            }
+        }
+    }
+    VehicleVFX vehicleVFXCached;
 
     public void SetColors(Color _color)
     {
@@ -26,9 +36,7 @@ public class Visual_Unit : MonoBehaviour
             {
                 el.GetComponent<MeshRenderer>().material.color = _color;
             }
-        }
-
-        
+        }        
     }
 
     public void SetMaterial(Material _color)
@@ -93,19 +101,24 @@ public class Visual_Unit : MonoBehaviour
 
     public void StartAttack()
     {
-        
-        if (attack)
-        {
-            //plays on awake
-            attack.gameObject.SetActive(false);
-            attack.gameObject.SetActive(true);
-        }
+
+        //if (attack)
+        //{
+        //    //plays on awake
+        //    attack.gameObject.SetActive(false);
+        //    attack.gameObject.SetActive(true);
+        //}
+
+        vehicleVFX.Shoot(true);
+
     }
 
     public void EndAttack()
     {
-        if (attack)
-        { attack.gameObject.SetActive(false); }
+        //if (attack)
+        //{ attack.gameObject.SetActive(false); }
+
+        vehicleVFX.Shoot(false);
     }
 
     public void StartDefense()
