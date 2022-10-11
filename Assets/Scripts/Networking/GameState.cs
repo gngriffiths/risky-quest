@@ -48,6 +48,8 @@ public class GameState : NetworkBehaviour
 					//pObj.Controller.Server_UpdateDeadState();
 				});
 
+				GameManager.Instance.ShowPlayerCount();
+
 				GameManager.rm.Purge();
 			}
 

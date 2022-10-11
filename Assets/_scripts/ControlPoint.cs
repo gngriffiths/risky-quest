@@ -1,26 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+
+
+public enum bonus_type { power,new_unit,speed}
 
 public class ControlPoint : MonoBehaviour
 {
+    public bonus_type bonus;
     public float zoneRadius;
+    public float bonusCombatStrength;
+
     public PlayerControl playerA; 
     public PlayerControl player1;
     
 
 
     public int controllerFaction;
+    public int controllerStrength;
 
-    public int control_A;
-    public int control_1;
+
+
 
     private MeshRenderer rend;
+    public TextMeshPro infoText;
 
     private List<Unit> units;
 
-    Dictionary<PlayerControl, int> playerControlStrength =
-                     new Dictionary<PlayerControl, int>();
+    Dictionary<int, int> playerControlStrength;
 
 
 
@@ -40,131 +48,165 @@ public class ControlPoint : MonoBehaviour
 
     public void CheckForControl()
     {
-        controllerFaction = -1;
 
-        int newA = 0;
-        int new1 = 0;
 
-        foreach (Unit el in GetUnits())
+        int factionInControl = -1;
+
+        controllerStrength = 0;
+
+
+        if (GetUnits().Count > 0)
         {
-            if (Vector3.Distance(transform.position, el.transform.position) <= zoneRadius)
+
+            PlayerControlStrength().Clear();
+
+
+            foreach (Unit el in GetUnits())
             {
-                if (el.faction == playerA.faction)
+
+                if (factionInControl == -1)
                 {
-                    newA += 1;// other.GetComponent<Unit>().Count();
+                    factionInControl = el.faction;
                 }
-                if (el.faction == player1.faction)
+
+
+                if (PlayerControlStrength().ContainsKey(el.faction))
                 {
-                    new1 += 1;// other.GetComponent<Unit>().Count();
+
+                    PlayerControlStrength()[el.faction] = PlayerControlStrength()[el.faction] + 1;
                 }
+                else
+                {
+                    PlayerControlStrength().Add(el.faction, 1);
+                }
+
+                if (PlayerControlStrength()[factionInControl] < PlayerControlStrength()[el.faction])
+                {
+                    factionInControl = el.faction;
+                }
+
             }
+
+            if (factionInControl != -1 && PlayerControlStrength()[factionInControl] > 0)
+            {
+
+                controllerStrength = PlayerControlStrength()[factionInControl];
+
+                controllerFaction = factionInControl;
+
+                GameManager.Instance.CheckForVictory(this);
+
+            }
+
+        }
+        else
+        {
+
+            controllerFaction = -1;
+            controllerStrength = 0;
+            GameManager.Instance.CheckForVictory(this);
         }
 
-        control_A = newA;
-        control_1 = new1;
 
-        if (control_A > control_1)
-        { controllerFaction = playerA.faction; }
-        else if (control_1 > control_A)
-        { controllerFaction = player1.faction; }
+       
 
+        
+
+
+
+        SetVisual();
+
+    }
+
+
+    public void SetVisual()
+    {
 
         if (controllerFaction >= 0 && GameManager.rm.PlayerColours.Length > controllerFaction && rend)
         {
             rend.material.color = GameManager.rm.PlayerColours[controllerFaction % GameManager.rm.PlayerColours.Length];
         }
-    
+        else { rend.material.color = GameManager.rm.PlayerColours[GameManager.rm.PlayerColours.Length - 1]; }
+
+        if (infoText == null)
+        {
+            if (transform.childCount > 0)
+            { 
+                if (transform.GetChild(0).GetComponent<TextMeshPro>())
+                { infoText = transform.GetChild(0).GetComponent<TextMeshPro>(); }
+            
+            }
+        }
+
+        if (infoText)
+        {
+            if (controllerFaction != -1)
+            {
+                infoText.text = "Faction: " + controllerFaction.ToString() + " \nStrength: " + controllerStrength.ToString();
+            }
+            else { infoText.text = "Neutral"; }
+        }
+
     }
+
+
+
+
+
 
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("OnTriggerEnter");
+        HandleTriggerEnter(other);
 
-        if (playerA == null || player1 == null) 
-        {
-            FindPlayers();
-        }
-
-        if (playerA == null || player1 == null) { return; }
-
-
-        if (other.GetComponent<Unit>() == null) { return; }
-
-        if(GetUnits().Contains(other.GetComponent<Unit>())) { return; }
-
-        GetUnits().Add(other.GetComponent<Unit>());
-
-        if (other.GetComponent<Unit>().faction == playerA.faction)
-        {
-            control_A += 1;// other.GetComponent<Unit>().Count();
-        }
-        if (other.GetComponent<Unit>().faction == player1.faction)
-        {
-            control_1 += 1;// other.GetComponent<Unit>().Count();
-        }
-        CheckForControl();
     }
+
+
     public void OnTriggerExit(Collider other)
     {
-        Debug.Log("OnTriggerExit");
 
-        if (playerA == null || player1 == null)
-        {
-            FindPlayers();
-        }
+        HandleTriggerExit(other);
+    }
 
-        if (playerA == null || player1 == null) { return; }
+
+
+    public virtual void HandleTriggerEnter(Collider other)
+    {
         if (other.GetComponent<Unit>() == null) { return; }
 
-        if (GetUnits().Contains(other.GetComponent<Unit>()) == false) { return; }
-
-
-        if (other.GetComponent<Unit>().faction == playerA.faction)
+        if (GetUnits().Contains(other.GetComponent<Unit>()) == false)
         {
-            control_A -= 1;// other.GetComponent<Unit>().Count();
+            GetUnits().Add(other.GetComponent<Unit>());
         }
-        if (other.GetComponent<Unit>().faction == player1.faction)
+       // other.GetComponent<Unit>().SetCurrentControlPoint(this);
+
+        CheckForControl();
+    }
+    public virtual void HandleTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Unit>() == null) { return; }
+
+        if (GetUnits().Contains(other.GetComponent<Unit>()))
         {
-            control_1 -= 1;// other.GetComponent<Unit>().Count();
+            GetUnits().Remove(other.GetComponent<Unit>());
         }
 
-        GetUnits().Remove(other.GetComponent<Unit>());
+
+
 
         CheckForControl();
     }
 
 
-    public void FindPlayers()
-    {
-        PlayerControl firstPlayer = null;
-        PlayerControl secondPlayer = null; 
-
-        PlayerRegistry.ForEach(pObj =>
-        {
-            if (firstPlayer == null)
-            {
-                firstPlayer = pObj.GetComponent<PlayerControl>();
-            }
-            else
-            {
-                if (pObj.Index < firstPlayer.faction)
-                {
-                    secondPlayer = firstPlayer;
-                    firstPlayer = pObj.GetComponent<PlayerControl>();
-                }
-            }
-            
 
 
-        });
-
-        player1 = firstPlayer;
-        playerA = secondPlayer;
-
-
-
+    public virtual void CheckForBonus(Unit _unit)
+    { 
+    
     }
+
+
+
 
 
     public List<Unit> GetUnits()
@@ -172,15 +214,24 @@ public class ControlPoint : MonoBehaviour
         if (units == null)
         {
             units = new List<Unit>();
-            foreach (Unit el in FindObjectsOfType<Unit>())
-            {
-                if (Vector3.Distance(el.transform.position,transform.position) <= zoneRadius)
-                { units.Add(el); }
-            }
+
         }
 
 
         return units;
     }
+
+    public Dictionary<int, int> PlayerControlStrength()
+    {
+        if (playerControlStrength == null)
+        {
+            playerControlStrength = new Dictionary<int, int>();
+  
+        }
+
+
+        return playerControlStrength;
+    }
+
 
 }

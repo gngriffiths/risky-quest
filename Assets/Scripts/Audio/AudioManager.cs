@@ -75,6 +75,7 @@ public class AudioManager : MonoBehaviour
 		{
 			GameObject clipObj = new GameObject(clip, typeof(AudioDestroyer));
 			AudioSource src = clipObj.AddComponent<AudioSource>();
+			if (src == null || clipObj == null) { return; }
 			if (position.HasValue)
 			{
 				clipObj.transform.position = position.Value;
@@ -96,6 +97,7 @@ public class AudioManager : MonoBehaviour
 
 	public static void Play(string clip, MixerTarget mixerTarget, Vector3? position = null, float pitch = 1.0f)
 	{
+		if (Instance == null || Instance.GetMixerGroup(mixerTarget) == null) { return; }
 		Play(clip, Instance.GetMixerGroup(mixerTarget), position, pitch);
 	}
 
