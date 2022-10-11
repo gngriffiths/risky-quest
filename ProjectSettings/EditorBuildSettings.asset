@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/game_thrash.unity
-    guid: 8063647641f0e1a47b25ea6d9d0802f8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/World.unity
+    guid: 83079a9aeab34824ead1cc88e35108e5
   m_configObjects: {}
