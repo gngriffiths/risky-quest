@@ -8261,21 +8261,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0843b339f9e9a7d4dadb0f51423dd6db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pingText: {fileID: 0}
   regionText: {fileID: 3896757020776763962}
   optionsButton: {fileID: 0}
-  totalTaskBarObject: {fileID: 0}
-  taskListObject: {fileID: 0}
   messageScreen: {fileID: 5026369707575490232}
   messageText: {fileID: 3127896347063758716}
   messageTypeText: {fileID: 4320218698602396262}
   messageNicknameText: {fileID: 4917893865737400526}
   messageTextCG: {fileID: 660796462174552439}
   messageScreenCG: {fileID: 1594906985025864401}
-  colorUI: {fileID: 0}
   messageScreenPanel: {fileID: 4032607224934806259}
   messageScreenGlow: {fileID: 2482147960240914855}
-  gameSettingsObject: {fileID: 0}
 --- !u!114 &3141177844781756518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8288,7 +8283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2f8666eb38432458746e4661f8e6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starter: {fileID: 0}
+  networkDebugStart: {fileID: 0}
   codeField: {fileID: 5587021166131332066}
 --- !u!114 &446014739333751160
 MonoBehaviour:
@@ -17543,6 +17538,7 @@ GameObject:
   - component: {fileID: 7874973821513046209}
   - component: {fileID: 315715570745974347}
   - component: {fileID: 154085370}
+  - component: {fileID: 8275287152289046876}
   m_Layer: 0
   m_Name: Play Button
   m_TagString: Untagged
@@ -17707,6 +17703,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d9f16f35441ac94c9b3161e5f532cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8275287152289046876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7297339786752448220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: TriggerAudio, Assembly-CSharp
+          m_MethodName: PlayOneShot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7402130024909905284
 GameObject:
   m_ObjectHideFlags: 0
