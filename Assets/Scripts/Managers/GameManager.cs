@@ -195,27 +195,29 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 				if (controllingPlayer)
 				{
-					if (el.bonus == bonus_type.new_unit)
-					{
-						controllingPlayer.RPC_InitUnits(controllingPlayer.faction,1);
+					controllingPlayer.RPC_AddUnit(el.transform.position, controllingPlayer.faction, 1);
 
 
-					}
-					else if(el.bonus == bonus_type.power)
-					{
+					//if (el.bonus == bonus_type.new_unit)
+					//{
 
 
-						foreach (Unit unitOnPoint in el.GetUnits())
-						{
-							if (unitOnPoint.faction == controllingPlayer.faction)
-							{
-								unitOnPoint.UpdateCount((int)el.bonusCombatStrength);
+					//}
+					//else if(el.bonus == bonus_type.power)
+					//{
 
-								controllingPlayer.RPC_UpdateUnitStrength(controllingPlayer.faction, unitOnPoint.id, unitOnPoint.Count());
+
+					//	foreach (Unit unitOnPoint in el.GetUnits())
+					//	{
+					//		if (unitOnPoint.faction == controllingPlayer.faction)
+					//		{
+					//			unitOnPoint.UpdateCount((int)el.bonusCombatStrength);
+
+					//			controllingPlayer.RPC_UpdateUnitStrength(controllingPlayer.faction, unitOnPoint.id, unitOnPoint.Count());
 								
-							}
-						}
-					}
+					//		}
+					//	}
+					//}
 
 
 				}
@@ -237,24 +239,53 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 			return;
 		}
 
+		//if (State.Current == EGameState.GameOver)
+		//{
+		//	RestartGame();
+		//	return;
+		//}
 		if (State.Current != EGameState.Pregame) return;
 
-		gameStarted = true;
 
 		State.Server_SetState(EGameState.Play);
 
 
 	}
 
+	public void Server_EndGame()
+	{
+		if (Runner.IsServer == false)
+		{
+			Debug.LogWarning("This method is server-only");
+			return;
+		}
+
+		if (State.Current != EGameState.Play) return;
+
+		Debug.LogWarning("Server_EndGame");
+
+		State.Server_SetState(EGameState.GameOver);
+
+
+	}
+
+
+	public void RestartGame()
+	{
+		gameTime = 0;
+		timestamp_lastBonus = 0;
+		timestamp_lastCombat = 0;
+
+		foreach (ControlPoint el in GetObjectives())
+		{
+			el.ResetToStart();
+		}
+
+			//State.Server_SetState(EGameState.Play);
+	}
 
 
 
-
-
-
-
-
-	public bool gameStarted = false;
 
 
 
@@ -317,7 +348,10 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
 		if (PlayerObjectiveTracker()[winningFaction] >= winCondition)
-		{ Debug.Log(winningFaction + " Wins the Game!"); }
+		{ 
+			Debug.Log(winningFaction + " Wins the Game!");
+			Server_EndGame();
+		}
 		else { Debug.Log(winningFaction + " is in the Lead"); }
 
 	}

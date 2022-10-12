@@ -150,10 +150,62 @@ public class PlayerControl : NetworkBehaviour
         {
             //start with a unit selected
             SelectUnit(GetUnits()[0]);
+
+            if (GetCameraFollow() && selectedUnit)
+            {
+                GetCameraFollow().SetTransformToFollow(selectedUnit.transform);
+            }
+
         }
 
 
     }
+
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_AddUnit(Vector3 _pos,int _faction, int _unitCount)
+    {
+
+        faction = _faction;
+
+
+        GameObject clone = GetUnitToSpawn();
+
+
+        clone.GetComponent<Unit>().Init(_faction, tracker_idCount, GameManager.rm.PlayerMaterials[_faction], _pos, transform.rotation);
+        clone.GetComponent<Unit>().owner = this;
+        clone.GetComponent<Unit>().SetCount(2);
+
+        GetUnits().Add(clone.GetComponent<Unit>());
+
+
+
+    }
+
+
+
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_EndGame()
+    {
+
+        if (units != null)
+        {
+            foreach (Unit el in units)
+            {
+                if (el.faction == GetComponent<PlayerObject>().Index)
+                { 
+                    el.De_Init(); 
+                }
+            }
+            units.Clear();
+
+        }
+    }
+
+
+
+
 
 
     [Rpc(RpcSources.All, RpcTargets.All)]
@@ -258,7 +310,10 @@ public class PlayerControl : NetworkBehaviour
                 SelectUnit(GetUnit(tracker_unitSelector));
             }
 
-
+            if (GetCameraFollow() && selectedUnit)
+            {
+                GetCameraFollow().SetTransformToFollow(selectedUnit.transform);
+            }
 
 
         }
@@ -363,7 +418,8 @@ public class PlayerControl : NetworkBehaviour
                 {
 
                     Unit targetUnit = hit.transform.GetComponent<Unit>();
-
+                if (targetUnit)
+                {
                     if (SelectedUnit().faction != targetUnit.faction)
                     {
 
@@ -378,7 +434,7 @@ public class PlayerControl : NetworkBehaviour
                         {
 
 
-                            RPC_IssueCommand(Unit_Command.split, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
+                            //   RPC_IssueCommand(Unit_Command.split, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
 
                         }
                         else
@@ -388,7 +444,7 @@ public class PlayerControl : NetworkBehaviour
                         }
 
                     }
-
+                }
 
                 }
                 else 
@@ -448,6 +504,9 @@ public class PlayerControl : NetworkBehaviour
             actingUnit.SetCommand(Unit_Command.move);
 
             actingUnit.SetNewDestination(_point);
+            actingUnit.Visuals().EndAttack();
+
+
 
             if (GetVisualOrders())
             {
@@ -565,7 +624,7 @@ public class PlayerControl : NetworkBehaviour
 
             if (GetPendingCommand() == Unit_Command.split)
             {
-                RPC_IssueCommand(Unit_Command.split, SelectedUnit().faction,SelectedUnit().id, Vector3.zero);
+              //  RPC_IssueCommand(Unit_Command.split, SelectedUnit().faction,SelectedUnit().id, Vector3.zero);
                 //SplitUnit(_unit);
                 
             }
@@ -705,9 +764,12 @@ public class PlayerControl : NetworkBehaviour
         if (GetPlayer(_faction))
         {
             Unit deadUnit = GetPlayer(_faction).GetUnit(_iD);
+
             if (deadUnit)
             {
                 deadUnit.De_Init();
+                if (GetUnits().Contains(deadUnit))
+                { GetUnits().Remove(deadUnit); }
             }
         }
         
@@ -804,10 +866,7 @@ public class PlayerControl : NetworkBehaviour
 
         selectedUnit = _unit;
 
-        if (GetCameraFollow() && selectedUnit)
-        {
-            GetCameraFollow().SetTransformToFollow( selectedUnit.transform);
-        }
+       
 
         if (SelectedUnit() && SelectedUnit().Visuals())
         {

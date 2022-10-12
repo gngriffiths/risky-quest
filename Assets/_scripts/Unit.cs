@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class Unit : MonoBehaviour
 {
 
-
+    public Transform chainLink;
 
     public int unitCount;
     public int faction;
@@ -18,8 +18,7 @@ public class Unit : MonoBehaviour
     public int range;
     [Min(1)]
     public int moveSpeed;
-    [Min(1)]
-    public int attackTime;
+
 
 
     public Unit_Command command;
@@ -30,7 +29,6 @@ public class Unit : MonoBehaviour
     private NavMeshAgent navAgent;
 
     private Visual_Unit visuals;
-
 
     public PlayerControl owner;
 
@@ -81,6 +79,26 @@ public class Unit : MonoBehaviour
             transform.parent = owner.transform;
 
         }
+
+        SetTarget(null);
+
+        if (GetFollower())
+        {
+            GetFollower().SetLeader(null);
+        }
+
+        if (GetLeader())
+        {
+            GetLeader().SetFollower(null);
+        }
+
+
+        SetLeader(null);
+        SetFollower(null);
+
+        SetNewDestination(transform.position);
+
+
         transform.localScale = Vector3.one * GameConstants.UNIT_SCALE_MAGNITUDE;
 
     }
@@ -91,8 +109,12 @@ public class Unit : MonoBehaviour
         //NOTE: currently basic/debug visual references. Intended to be replaced with the final art elements
         if (visuals)
         {
+            Visuals().SetModel(id);
+
             Visuals().UpdateUnitCount(unitCount);
             Visuals().SetMaterial(_color);
+
+            Visuals().Spawn();
         }
         else
         {
@@ -114,7 +136,7 @@ public class Unit : MonoBehaviour
             GetLeader().SetFollower(null);
         }
 
-
+        Visuals().Death(transform.position);
 
         faction = -1;
         id = -1;
@@ -127,7 +149,9 @@ public class Unit : MonoBehaviour
 
         owner = null;
 
-     transform.parent = GameManager.Instance.GetUnitPool();
+
+
+        transform.parent = GameManager.Instance.GetUnitPool();
 
         gameObject.SetActive(false);
 
@@ -160,9 +184,9 @@ public class Unit : MonoBehaviour
 
         if (GetLeader() != null) 
         {
-            if (DistanceTo(GetLeader().transform.position) > followRange)
+            if (DistanceTo(GetLeader().GetChainLinkPosition()) > followRange)
             {
-               SetNewDestination(GetLeader().transform.position - (GetLeader().transform.forward * followRange));
+               SetNewDestination(GetLeader().GetChainLinkPosition());
             }
         }
         else if ( GetTarget() && CurrentCooldown() <= 0)
@@ -220,10 +244,10 @@ public class Unit : MonoBehaviour
         if (DistanceToDestination() <= range)
         {
 
-            NavAgent().speed = 0;
-
+           // NavAgent().speed = 0;
 
         }
+        else { NavAgent().speed = moveSpeed; }
 
         if (unitCount <= 0)
         {
@@ -390,6 +414,13 @@ public class Unit : MonoBehaviour
             leader = null;
         }
         
+    }
+
+    public Vector3 GetChainLinkPosition()
+    {
+        if (chainLink == null)
+        { return transform.position; }
+        return chainLink.position;
     }
 
 
