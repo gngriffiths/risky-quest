@@ -1,14 +1,41 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Visual_Unit : MonoBehaviour
 {
+
+
     public MeshRenderer primaryRenderer;
     public MeshRenderer selectedRenderer;
 
+    public MeshFilter carModel;
+    public List<Mesh> models;
+
+
+    public GameObject selectedIndicator;
+    public GameObject weaponEffects;
+
+    public GameObject deathEffect;
+
+
+
+
     public Transform parent_unitCountIndicators;
 
+    //public ParticleSystem attack;
+
+    VehicleVFX vehicleVFX
+    {
+        get
+        {
+            {
+                if (vehicleVFXCached == null)
+                    vehicleVFXCached = GetComponentInChildren<VehicleVFX>();
+                return vehicleVFXCached;
+            }
+        }
+    }
+    VehicleVFX vehicleVFXCached;
 
     public void SetColors(Color _color)
     {
@@ -24,45 +51,137 @@ public class Visual_Unit : MonoBehaviour
             {
                 el.GetComponent<MeshRenderer>().material.color = _color;
             }
+        }        
+    }
+
+    public void SetMaterial(Material _color)
+    {
+        if (primaryRenderer) { primaryRenderer.material = _color; }
+
+        if (parent_unitCountIndicators == null) { return; }
+
+        foreach (Transform el in parent_unitCountIndicators)
+        {
+
+
+            if (el.GetComponent<MeshRenderer>())
+            {
+                el.GetComponent<MeshRenderer>().material = _color;
+            }
         }
 
-        
+
     }
+
 
     public void UpdateUnitCount(int _count)
     {
         if (parent_unitCountIndicators == null) { return; }
 
+        int count = 0;
+
         foreach (Transform el in parent_unitCountIndicators)
         {
-            el.gameObject.SetActive(false);
+            if (count < _count)
+            {
+                el.localPosition = new Vector3(0, 0, -0.05f * count);
+                if (el.GetComponent<MeshRenderer>() )
+                {
+                    el.GetComponent<MeshRenderer>().material = primaryRenderer.material;
+                }
+                el.gameObject.SetActive(true);
+            }
+            else
+            {
+                el.gameObject.SetActive(false);
+            }
+            count++;
         }
 
-        if (parent_unitCountIndicators.childCount > _count)
-        {
-            if (_count > 0)
-            {
-                parent_unitCountIndicators.GetChild(_count - 1).gameObject.SetActive(true);
-                parent_unitCountIndicators.GetChild(_count - 1).localScale = parent_unitCountIndicators.GetChild(0).localScale;
-            }
-        }
-        else
-        {
-            parent_unitCountIndicators.GetChild(_count - 1).gameObject.SetActive(true);
-            parent_unitCountIndicators.GetChild(_count - 1).localScale *= 1 + (0.1f * _count);
-        }
-  
+
     }
 
     public void Select(bool _select)
     {
-        if (selectedRenderer)
+        //if (selectedRenderer)
+        //{
+        //    if (_select)
+        //    { selectedRenderer.material.color = Color.yellow; }
+        //    else
+        //    { selectedRenderer.material.color = Color.gray; }
+        //}
+
+        if (selectedIndicator)
         {
-            if (_select)
-            { selectedRenderer.material.color = Color.yellow; }
-            else
-            { selectedRenderer.material.color = Color.gray; }
+            selectedIndicator.SetActive(_select); 
+        }
+
+    }
+
+    public void Death(Vector3 _pos)
+    {
+        if (deathEffect)
+        {
+            deathEffect.SetActive(false);
+            deathEffect.transform.parent = null;
+            deathEffect.transform.position = _pos;
+
         }
     }
+
+
+    public void Spawn()
+    {
+        if (deathEffect)
+        { 
+            deathEffect.SetActive(false);
+        }
+    }
+
+
+
+    public void StartAttack()
+    {
+
+        if (weaponEffects)
+        {
+            weaponEffects.SetActive(false);
+            weaponEffects.SetActive(true);
+        }
+
+      //  vehicleVFX.Shoot(true);
+
+    }
+
+    public void EndAttack()
+    {
+        if (weaponEffects)
+        {
+            weaponEffects.SetActive(false);
+        }
+
+      //  vehicleVFX.Shoot(false);
+    }
+
+
+
+    public void StartDefense()
+    { }
+
+    public void EndDefense()
+    { }
+
+
+    public void SetModel(int _id)
+    {
+        if (carModel != null && models != null && models.Count > 0)
+        {
+            if (models.Count > _id % models.Count)
+            { 
+                carModel.mesh = models[_id % models.Count];
+            }
+        }
+    }
+
 
 }
