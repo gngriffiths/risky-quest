@@ -1,0 +1,315 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9216406936430269729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/victory-loss
+  m_EditorClassIdentifier: 
+  Path: event:/Music/victory-loss
+  Guid:
+    Data1: -764463815
+    Data2: 1257590862
+    Data3: -459285344
+    Data4: 2012528047
+  Banks:
+  - {fileID: -3290907918785878640}
+  - {fileID: -3832452343812753928}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 4161
+--- !u!114 &-5243095148184951439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Click-play-game
+  m_EditorClassIdentifier: 
+  Path: event:/UI/Click-play-game
+  Guid:
+    Data1: 2136975396
+    Data2: 1298599159
+    Data3: 614363042
+    Data4: -1630538758
+  Banks:
+  - {fileID: -3290907918785878640}
+  - {fileID: -3832452343812753928}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 580
+--- !u!114 &-4832603031687314460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Phonk -Mus2
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Phonk -Mus2
+  Guid:
+    Data1: -643542818
+    Data2: 1215465631
+    Data3: -1105338995
+    Data4: -997763204
+  Banks:
+  - {fileID: -3290907918785878640}
+  - {fileID: -3832452343812753928}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 28500
+--- !u!114 &-3832452343812753928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Desktop/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMODAssets/Desktop/Desktop/Master.bank
+  Name: Desktop/Master
+  StudioPath: bank:/Master
+  lastModified: 638012610558956549
+  FileSizes: []
+  Exists: 1
+--- !u!114 &-3290907918785878640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Desktop/Master.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMODAssets/Desktop/Master.bank
+  Name: Desktop/Master
+  StudioPath: bank:/Master
+  lastModified: 638012601271913359
+  FileSizes: []
+  Exists: 1
+--- !u!114 &-2006479684937762243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Click-hover
+  m_EditorClassIdentifier: 
+  Path: event:/UI/Click-hover
+  Guid:
+    Data1: 2000611655
+    Data2: 1116039797
+    Data3: -1950671726
+    Data4: 1711119935
+  Banks:
+  - {fileID: -3290907918785878640}
+  - {fileID: -3832452343812753928}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 215
+--- !u!114 &-1854293860056641178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.strings.bank
+  m_EditorClassIdentifier: 
+  Path: Assets/FMODAssets/Desktop/Master.strings.bank
+  Name: Master.strings
+  StudioPath: bank:/Master.strings
+  lastModified: 638012601271923349
+  FileSizes:
+  - Name: 
+    Value: 1118
+  Exists: 1
+--- !u!114 &-1463959222902054898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/UI/Click-standard-ui
+  m_EditorClassIdentifier: 
+  Path: event:/UI/Click-standard-ui
+  Guid:
+    Data1: 1203839107
+    Data2: 1080207867
+    Data3: 882573721
+    Data4: -1830007540
+  Banks:
+  - {fileID: -3290907918785878640}
+  - {fileID: -3832452343812753928}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 314
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d32cf7c32a3ed8347bac48ef5ed56d82, type: 3}
+  m_Name: FMODStudioCache
+  m_EditorClassIdentifier: 
+  EditorBanks:
+  - {fileID: -1854293860056641178}
+  - {fileID: -3290907918785878640}
+  - {fileID: -3832452343812753928}
+  EditorEvents:
+  - {fileID: 20455941983287843}
+  - {fileID: 2054737390591888049}
+  - {fileID: -4832603031687314460}
+  - {fileID: -5243095148184951439}
+  - {fileID: -9216406936430269729}
+  - {fileID: -2006479684937762243}
+  - {fileID: 2935458431112653665}
+  - {fileID: -1463959222902054898}
+  EditorParameters: []
+  MasterBanks:
+  - {fileID: -3290907918785878640}
+  - {fileID: -3832452343812753928}
+  StringsBanks:
+  - {fileID: -1854293860056641178}
+  cacheTime: 638012610558996537
+  cacheVersion: 131593
+--- !u!114 &20455941983287843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Phonk_-_LobbyMus
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Phonk_-_LobbyMus
+  Guid:
+    Data1: -18491600
+    Data2: 1239312762
+    Data3: -1240629834
+    Data4: -688274088
+  Banks:
+  - {fileID: -3290907918785878640}
+  - {fileID: -3832452343812753928}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 18076
+--- !u!114 &2054737390591888049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Phonk -Mus3 (Intense)
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Phonk -Mus3 (Intense)
+  Guid:
+    Data1: -81703057
+    Data2: 1201633190
+    Data3: 1857298588
+    Data4: -814986499
+  Banks:
+  - {fileID: -3290907918785878640}
+  - {fileID: -3832452343812753928}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 12000
+--- !u!114 &2935458431112653665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Phonk -Mus1 and 2
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Phonk -Mus1 and 2
+  Guid:
+    Data1: -685540224
+    Data2: 1100257960
+    Data3: -1422884203
+    Data4: -1335253051
+  Banks:
+  - {fileID: -3290907918785878640}
+  - {fileID: -3832452343812753928}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 95089
