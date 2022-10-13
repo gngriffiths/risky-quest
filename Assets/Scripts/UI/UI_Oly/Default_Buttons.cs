@@ -15,6 +15,7 @@ public class Default_Buttons : MonoBehaviour
     private Button settingButton;
     private Button tutorialButton;
     private Button surrenderButton;
+    private Button startGameButton;
 
     private Button closeSettingButton;
     private Button closeTutoButton;
@@ -34,6 +35,7 @@ public class Default_Buttons : MonoBehaviour
         settingButton = root.Q<Button>("Setting_Btn");
         tutorialButton = root.Q<Button>("Tuto_Btn");
         surrenderButton = root.Q<Button>("Surrender_Btn");
+        startGameButton = root.Q<Button>("Start_Game");
 
         closeSettingButton = root.Q<Button>("Close_Setting_Btn");
         closeTutoButton = root.Q<Button>("Close_Tuto_Btn");
@@ -43,6 +45,8 @@ public class Default_Buttons : MonoBehaviour
         settingButton.clicked += SettingButtonPressed;
         tutorialButton.clicked += TutorialButtonPressed;
         surrenderButton.clicked += SurrenderButtonPressed;
+        startGameButton.clicked += StartGameButtonPressed;
+
         closeSettingButton.clicked += CloseSettingButtonPressed;
         closeTutoButton.clicked += CloseTutoButtonPressed;
     }
@@ -51,6 +55,15 @@ public class Default_Buttons : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void StartGameButtonPressed()
+    {
+        SceneManager.LoadScene("MAIN");
+
+        gameUiPage.style.display = DisplayStyle.Flex;
+
+        settingPage.style.display = DisplayStyle.None;
     }
 
     void SettingButtonPressed()
