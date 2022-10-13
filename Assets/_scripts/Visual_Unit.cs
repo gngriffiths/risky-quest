@@ -122,9 +122,10 @@ public class Visual_Unit : MonoBehaviour
     {
         if (deathEffect)
         {
-            deathEffect.SetActive(false);
             deathEffect.transform.parent = null;
             deathEffect.transform.position = _pos;
+            deathEffect.SetActive(true);
+
 
         }
     }
