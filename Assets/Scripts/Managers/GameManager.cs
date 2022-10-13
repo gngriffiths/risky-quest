@@ -32,7 +32,7 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 	public UIScreen pauseScreen;
 	public UIScreen optionsScreen;
-    public UI_Oly uiOly;
+    public Default_Buttons uIToolKit;
 
     public Transform parent_spawnPoints;
 	public Transform parent_unitPool;
@@ -427,9 +427,9 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 			});
 
-			debug_scoreDisplay.text = winningText;
-			if(uiOly != null)
-				uiOly.Scores(winningText);
+			//debug_scoreDisplay.text = winningText;
+			if(uIToolKit != null)
+				uIToolKit.Scores(winningText);
 
 
         }
