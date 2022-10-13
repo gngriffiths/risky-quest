@@ -57,9 +57,9 @@ public class Default_Buttons : MonoBehaviour
         
     }
 
-    void StartGameButtonPressed()
+    public void StartGameButtonPressed()
     {
-        SceneManager.LoadScene("MAIN");
+        //SceneManager.LoadScene("MAIN");
 
         gameUiPage.style.display = DisplayStyle.Flex;
 
