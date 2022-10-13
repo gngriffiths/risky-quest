@@ -26,14 +26,15 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 	[Networked]
 	public int winningFaction { get; set; }
-
+    
 
 	public NetworkDebugStart starter;
 
 	public UIScreen pauseScreen;
 	public UIScreen optionsScreen;
+    public UI_Oly uiOly;
 
-	public Transform parent_spawnPoints;
+    public Transform parent_spawnPoints;
 	public Transform parent_unitPool;
 
 	public Transform GetUnitPool()
@@ -421,15 +422,17 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 			{
 				if (PlayerObjectiveTracker().ContainsKey(pObj.Index))
 				{
-					winningText += "P: " + pObj.Index + "Controls " + PlayerObjectiveTracker()[pObj.Index] + " Objectives \n";
+					winningText += "Player " + pObj.Index + " controls " + PlayerObjectiveTracker()[pObj.Index] + " bases. \n";
 				}
 
 			});
 
 			debug_scoreDisplay.text = winningText;
+			if(uiOly != null)
+				uiOly.Scores(winningText);
 
-			
-		}
+
+        }
 		else
 		{
 			if (GameObject.Find("debugtext_Objective"))

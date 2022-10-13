@@ -41,12 +41,12 @@ public class VehicleVFX : MonoBehaviour
         if (moving && dustParticles.isStopped)
         {
             dustParticles.Play();
-            Debug.Log("Play");
+            //Debug.Log("Play");
         }
         else if (!moving && dustParticles.isPlaying)
         {
             dustParticles.Stop();
-            Debug.Log("Stop");
+            //Debug.Log("Stop");
         }
 
     }
