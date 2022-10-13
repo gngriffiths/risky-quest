@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.5
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.6307713, g: 0.5694945, b: 0.4768598, a: 0.5}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -228,7 +228,7 @@ MonoBehaviour:
       Data2: 1116039797
       Data3: -1950671726
       Data4: 1711119935
-    Path: event:/UI/Click-Light
+    Path: event:/UI/Click-hover
   Event: 
   PlayEvent: 15
   StopEvent: 0
@@ -379,7 +379,7 @@ MonoBehaviour:
       Data2: 1221762590
       Data3: -214814323
       Data4: 499812242
-    Path: event:/UI/metalic rustle
+    Path: event:/Metalic rustle
   Event: 
   PlayEvent: 13
   StopEvent: 0
@@ -514,6 +514,7 @@ MonoBehaviour:
   listenerTf: {fileID: 687538501}
   posOffset: {x: 0, y: 10, z: -5}
   lookOffset: {x: 0, y: 1, z: 0}
+  followSpeed: 0
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +701,7 @@ MonoBehaviour:
       Data2: 1298599159
       Data3: 614363042
       Data4: -1630538758
-    Path: event:/UI/door squeak close1
+    Path: event:/UI/Click-play-game
   Event: 
   PlayEvent: 15
   StopEvent: 0
@@ -777,6 +778,19 @@ MonoBehaviour:
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0, g: 0, b: 0, a: 0}
+  PlayerMaterials:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1322908185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,11 +804,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  _gameTime: 0
+  tracker_turnTime: 0
+  _winningFaction: 0
   starter: {fileID: 532114166}
   pauseScreen: {fileID: 1974966101}
   optionsScreen: {fileID: 1426241245}
   parent_spawnPoints: {fileID: 0}
   parent_unitPool: {fileID: 0}
+  gameStarted: 0
+  objectives: []
+  winCondition: 0
+  debug_scoreDisplay: {fileID: 0}
 --- !u!114 &1322908186
 MonoBehaviour:
   m_ObjectHideFlags: 0
