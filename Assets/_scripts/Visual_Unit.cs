@@ -1,9 +1,24 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Visual_Unit : MonoBehaviour
 {
+
+
     public MeshRenderer primaryRenderer;
     public MeshRenderer selectedRenderer;
+
+    public MeshFilter carModel;
+    public List<Mesh> models;
+
+
+    public GameObject selectedIndicator;
+    public GameObject weaponEffects;
+
+    public GameObject deathEffect;
+
+
+
 
     public Transform parent_unitCountIndicators;
 
@@ -88,12 +103,39 @@ public class Visual_Unit : MonoBehaviour
 
     public void Select(bool _select)
     {
-        if (selectedRenderer)
+        //if (selectedRenderer)
+        //{
+        //    if (_select)
+        //    { selectedRenderer.material.color = Color.yellow; }
+        //    else
+        //    { selectedRenderer.material.color = Color.gray; }
+        //}
+
+        if (selectedIndicator)
         {
-            if (_select)
-            { selectedRenderer.material.color = Color.yellow; }
-            else
-            { selectedRenderer.material.color = Color.gray; }
+            selectedIndicator.SetActive(_select); 
+        }
+
+    }
+
+    public void Death(Vector3 _pos)
+    {
+        if (deathEffect)
+        {
+            deathEffect.transform.parent = null;
+            deathEffect.transform.position = _pos;
+            deathEffect.SetActive(true);
+
+
+        }
+    }
+
+
+    public void Spawn()
+    {
+        if (deathEffect)
+        { 
+            deathEffect.SetActive(false);
         }
     }
 
@@ -102,29 +144,45 @@ public class Visual_Unit : MonoBehaviour
     public void StartAttack()
     {
 
-        //if (attack)
-        //{
-        //    //plays on awake
-        //    attack.gameObject.SetActive(false);
-        //    attack.gameObject.SetActive(true);
-        //}
+        if (weaponEffects)
+        {
+            weaponEffects.SetActive(false);
+            weaponEffects.SetActive(true);
+        }
 
-        vehicleVFX.Shoot(true);
+      //  vehicleVFX.Shoot(true);
 
     }
 
     public void EndAttack()
     {
-        //if (attack)
-        //{ attack.gameObject.SetActive(false); }
+        if (weaponEffects)
+        {
+            weaponEffects.SetActive(false);
+        }
 
-        vehicleVFX.Shoot(false);
+      //  vehicleVFX.Shoot(false);
     }
+
+
 
     public void StartDefense()
     { }
 
     public void EndDefense()
     { }
+
+
+    public void SetModel(int _id)
+    {
+        if (carModel != null && models != null && models.Count > 0)
+        {
+            if (models.Count > _id % models.Count)
+            { 
+                carModel.mesh = models[_id % models.Count];
+            }
+        }
+    }
+
 
 }

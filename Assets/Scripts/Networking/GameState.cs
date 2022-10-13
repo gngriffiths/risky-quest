@@ -104,9 +104,14 @@ public class GameState : NetworkBehaviour
 
 			if (Runner.IsServer) // [SERVER] * -> ImpostorWin
 			{
+				PlayerRegistry.ForEach(
+
+				obj => obj.Controller.RPC_EndGame());
+
+
 				Server_DelaySetState(EGameState.Pregame, 3);
 			}
-
+			GameManager.Instance.RestartGame();
 			if (Runner.IsPlayer) // [PLAYER] * -> ImpostorWin
 			{
 

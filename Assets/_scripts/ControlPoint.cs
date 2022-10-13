@@ -44,7 +44,17 @@ public class ControlPoint : MonoBehaviour
         
     }
 
-   
+
+    public void ResetToStart()
+    {
+        GetUnits().Clear();
+        controllerFaction = -1;
+        controllerStrength = -1;
+        SetVisual();
+
+
+    }
+
 
     public void CheckForControl()
     {
@@ -174,6 +184,8 @@ public class ControlPoint : MonoBehaviour
     {
         if (other.GetComponent<Unit>() == null) { return; }
 
+        Debug.Log("Control point HandleTriggerEnter");
+
         if (GetUnits().Contains(other.GetComponent<Unit>()) == false)
         {
             GetUnits().Add(other.GetComponent<Unit>());
@@ -185,6 +197,8 @@ public class ControlPoint : MonoBehaviour
     public virtual void HandleTriggerExit(Collider other)
     {
         if (other.GetComponent<Unit>() == null) { return; }
+
+        Debug.Log("Control point EXIT");
 
         if (GetUnits().Contains(other.GetComponent<Unit>()))
         {

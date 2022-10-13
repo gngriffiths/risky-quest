@@ -111,6 +111,17 @@ public class CombatManager : MonoBehaviour
                 NewLine(line);
                 //remove this combat and then resolve the next one in order
                 GetCombats().RemoveAt(GetCombats().Count - 1);
+
+                if (combat.attacker)
+                {
+                    combat.attacker.Visuals().EndAttack();
+                }
+
+                if (combat.defender)
+                {
+                    combat.defender.Visuals().EndAttack();
+                }
+
                 ConcludeCombatTurn(_atkRoll, _defRoll);
                 return;
             }
@@ -179,15 +190,15 @@ public class CombatManager : MonoBehaviour
 
             if (combat.attacker.Count() <= 0 || combat.defender.Count() <= 0)
             {
-                //if (combat.attacker.Count() <= 0)
-                //{
-                //    combat.attacker.De_Init();
-                //}
+                if (combat.attacker )
+                {
+                    combat.attacker.Visuals().EndAttack();
+                }
 
-                //if (combat.defender.Count() <= 0)
-                //{
-                //    combat.defender.De_Init();
-                //}
+                if (combat.defender)
+                {
+                    combat.defender.Visuals().EndAttack();
+                }
 
 
             }
@@ -198,6 +209,18 @@ public class CombatManager : MonoBehaviour
                     //if in range
                     //move it to the back of the line
                     GetCombats().Insert(0, combat);
+                }
+                else 
+                {
+                    if (combat.attacker)
+                    {
+                        combat.attacker.Visuals().EndAttack();
+                    }
+
+                    if (combat.defender)
+                    {
+                        combat.defender.Visuals().EndAttack();
+                    }
                 }
                     
             }
@@ -264,7 +287,6 @@ public class Combat
         defender = _defender;
         timeStamp_combatStart = _gameTime;
 
-        combatLength = _attacker.attackTime;
     }
 
     public bool CheckIfDone(float _gameTime)
