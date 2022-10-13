@@ -30,7 +30,6 @@ public class Default_Buttons : MonoBehaviour
         defaultPage = root.Q<VisualElement>("Default_Hi-if");
         settingPage = root.Q<VisualElement>("Setting_Hi-if");
         tutorialPage = root.Q<VisualElement>("Tuto_Hi-if");
-        gameUiPage = root.Q<VisualElement>("Game_UI_Hi-if");
 
         settingButton = root.Q<Button>("Setting_Btn");
         tutorialButton = root.Q<Button>("Tuto_Btn");
@@ -61,7 +60,7 @@ public class Default_Buttons : MonoBehaviour
     {
         //SceneManager.LoadScene("MAIN");
 
-        gameUiPage.style.display = DisplayStyle.Flex;
+        defaultPage.style.display = DisplayStyle.Flex;
 
         settingPage.style.display = DisplayStyle.None;
     }
@@ -80,10 +79,7 @@ public class Default_Buttons : MonoBehaviour
     }
     void SurrenderButtonPressed()
     {
-        settingPage.style.display = DisplayStyle.None;
-
-        gameUiPage.style.display = DisplayStyle.Flex;
-
+        //settingPage.style.display = DisplayStyle.None;
     }
 
     void CloseSettingButtonPressed()
