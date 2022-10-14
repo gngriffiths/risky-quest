@@ -56,11 +56,18 @@ public class Default_Buttons : MonoBehaviour
         
     }
 
-    public void PreGame()
+    public void PreGameHost()
     {
-        // Display Start Button
+        // Display Start, Settings & Tutorial buttons
+        Debug.Log("Display start, settings and tutorial");
     }
-    
+
+    public void PreGameJoin()
+    {
+        // Display Settings & Tutorial buttons
+        Debug.Log("Settings and tutorial");
+    }
+
     public void StartGameButtonPressed()
     {
         GameManager.Instance.Server_StartGame();                // Start the game
