@@ -63,6 +63,8 @@ public class Default_Buttons : MonoBehaviour
         defaultPage.style.display = DisplayStyle.Flex;
 
         settingPage.style.display = DisplayStyle.None;
+
+        startGameButton.style.display = DisplayStyle.None;
     }
 
     void SettingButtonPressed()
