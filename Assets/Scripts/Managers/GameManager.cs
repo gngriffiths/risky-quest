@@ -234,18 +234,21 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 	public void Server_StartGame()
 	{
-		if (Runner.IsServer == false)
+        if(Runner != null)
 		{
-			Debug.LogWarning("This method is server-only");
-			return;
-		}
+            if (Runner.IsServer == false)
+            {
+                Debug.LogWarning("This method is server-only");
+                return;
+            }
+        }
 
-		//if (State.Current == EGameState.GameOver)
-		//{
-		//	RestartGame();
-		//	return;
-		//}
-		if (State.Current != EGameState.Pregame) return;
+        //if (State.Current == EGameState.GameOver)
+        //{
+        //	RestartGame();
+        //	return;
+        //}
+        if (State.Current != EGameState.Pregame) return;
 
 
 		State.Server_SetState(EGameState.Play);

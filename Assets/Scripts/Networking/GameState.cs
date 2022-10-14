@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class GameState : NetworkBehaviour
 {
+	[SerializeField] Default_Buttons default_Buttons = null;
+
+
 	public enum EGameState { Off, Pregame, Play, GameOver }
 
 	[Networked] public EGameState Previous { get; set; }

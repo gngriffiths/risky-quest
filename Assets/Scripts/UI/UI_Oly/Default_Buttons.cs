@@ -56,9 +56,14 @@ public class Default_Buttons : MonoBehaviour
         
     }
 
+    public void PreGame()
+    {
+        // Display Start Button
+    }
+    
     public void StartGameButtonPressed()
     {
-        //SceneManager.LoadScene("MAIN");
+        GameManager.Instance.Server_StartGame();                // Start the game
 
         defaultPage.style.display = DisplayStyle.Flex;
 

@@ -256,6 +256,7 @@ public class PlayerControl : NetworkBehaviour
     public override void FixedUpdateNetwork()
     
     {
+
         if (Runner.IsServer)
         {
             if (LocalInput.GetDown(KeyCode.Space))
