@@ -39,7 +39,10 @@ public class GameState : NetworkBehaviour
 
 			if (Runner.IsServer) // [SERVER] * -> Pregame
 			{
-				PlayerRegistry.ForEach(pObj =>
+				default_Buttons.PreGameHost();
+
+
+                PlayerRegistry.ForEach(pObj =>
 				{
 					
 
@@ -55,6 +58,10 @@ public class GameState : NetworkBehaviour
 
 				GameManager.rm.Purge();
 			}
+			else
+			{
+                default_Buttons.PreGameJoin();
+            }
 
 			if (Runner.IsPlayer) // [PLAYER] * -> Pregame
 			{
