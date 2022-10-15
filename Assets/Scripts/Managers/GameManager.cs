@@ -26,14 +26,15 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 	[Networked]
 	public int winningFaction { get; set; }
-
+    
 
 	public NetworkDebugStart starter;
 
 	public UIScreen pauseScreen;
 	public UIScreen optionsScreen;
+    public Default_Buttons uIToolKit;
 
-	public Transform parent_spawnPoints;
+    public Transform parent_spawnPoints;
 	public Transform parent_unitPool;
 
 	public Transform GetUnitPool()
@@ -233,18 +234,21 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 	public void Server_StartGame()
 	{
-		if (Runner.IsServer == false)
+        if(Runner != null)
 		{
-			Debug.LogWarning("This method is server-only");
-			return;
-		}
+            if (Runner.IsServer == false)
+            {
+                Debug.LogWarning("This method is server-only");
+                return;
+            }
+        }
 
-		//if (State.Current == EGameState.GameOver)
-		//{
-		//	RestartGame();
-		//	return;
-		//}
-		if (State.Current != EGameState.Pregame) return;
+        //if (State.Current == EGameState.GameOver)
+        //{
+        //	RestartGame();
+        //	return;
+        //}
+        if (State.Current != EGameState.Pregame) return;
 
 
 		State.Server_SetState(EGameState.Play);
@@ -421,15 +425,17 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 			{
 				if (PlayerObjectiveTracker().ContainsKey(pObj.Index))
 				{
-					winningText += "P: " + pObj.Index + "Controls " + PlayerObjectiveTracker()[pObj.Index] + " Objectives \n";
+					winningText += "Player " + (pObj.Index + 1) + " controls " + PlayerObjectiveTracker()[pObj.Index] + " bases. \n";
 				}
 
 			});
 
-			debug_scoreDisplay.text = winningText;
+			//debug_scoreDisplay.text = winningText;
+			if(uIToolKit != null)
+				uIToolKit.Scores(winningText);
 
-			
-		}
+
+        }
 		else
 		{
 			if (GameObject.Find("debugtext_Objective"))

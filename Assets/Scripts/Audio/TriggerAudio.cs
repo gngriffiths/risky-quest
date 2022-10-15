@@ -5,7 +5,7 @@ using UnityEngine;
 public class TriggerAudio : MonoBehaviour
 {
     // NOTE: FMODUnity is missing.
-
+    // John: un-commenting out, because issue has been resolved with Gareth ???
     //public FMODUnity.EventReference fmodEvent; public string Event;
     //public bool PlayOnAwake;
     //public bool PlayOnDestroy;
