@@ -60,6 +60,9 @@ public class Default_Buttons : MonoBehaviour
     {
         // Display Start, Settings & Tutorial buttons
         defaultPage.style.display = DisplayStyle.Flex;
+
+        startGameButton.style.display = DisplayStyle.Flex;
+
     }
 
     public void PreGameJoin()

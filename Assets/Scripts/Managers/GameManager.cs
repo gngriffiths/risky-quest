@@ -425,7 +425,7 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 			{
 				if (PlayerObjectiveTracker().ContainsKey(pObj.Index))
 				{
-					winningText += "Player " + pObj.Index + " controls " + PlayerObjectiveTracker()[pObj.Index] + " bases. \n";
+					winningText += "Player " + (pObj.Index + 1) + " controls " + PlayerObjectiveTracker()[pObj.Index] + " bases. \n";
 				}
 
 			});
