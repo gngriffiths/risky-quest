@@ -59,13 +59,15 @@ public class Default_Buttons : MonoBehaviour
     public void PreGameHost()
     {
         // Display Start, Settings & Tutorial buttons
-        Debug.Log("Display start, settings and tutorial");
+        defaultPage.style.display = DisplayStyle.Flex;
     }
 
     public void PreGameJoin()
     {
         // Display Settings & Tutorial buttons
-        Debug.Log("Settings and tutorial");
+        defaultPage.style.display = DisplayStyle.Flex;
+
+        startGameButton.style.display = DisplayStyle.None;
     }
 
     public void StartGameButtonPressed()
@@ -74,7 +76,7 @@ public class Default_Buttons : MonoBehaviour
 
         defaultPage.style.display = DisplayStyle.Flex;
 
-        settingPage.style.display = DisplayStyle.None;
+        startGameButton.style.display = DisplayStyle.None;
     }
 
     void SettingButtonPressed()
