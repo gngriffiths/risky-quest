@@ -73,7 +73,8 @@ public class PlayerControl : NetworkBehaviour
         if (Runner.LocalPlayer)
         {
             Local = this;
-         //   faction = PlayerObject.Local.Index;
+            GameManager.Instance.RPC_PlayerSpawned();
+            //   faction = PlayerObject.Local.Index;
         }
         if (Object.HasInputAuthority)
         {
@@ -84,7 +85,11 @@ public class PlayerControl : NetworkBehaviour
             if (GetVisualOrders()) { GetVisualOrders().SetFaction(GameManager.rm.PlayerMaterials[faction]); }
         }
 
-
+        if (Object.HasInputAuthority)
+        {
+            Local = this;
+            
+        }
     }
 
     

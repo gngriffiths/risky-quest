@@ -211,7 +211,7 @@ public class Unit : MonoBehaviour
                 if (ActiveCommand() == Unit_Command.merge)
                 {
                     //GetLeader().
-                    GiveBuff(GameConstants.SPEEDBUFF * (1 - (id % 2)), GameConstants.POWERBUFF * (id % 2));
+                    GiveBuff(GameConstants.SPEEDBUFF,0);
                     timer_buffCooldown = buffCooldown;
 
                     SetCommand(Unit_Command.none);
