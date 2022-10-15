@@ -13,8 +13,13 @@ public enum Unit_Command
     inCombat_defending,
     defend,
 
-    split,merge,
-    merge_move
+    split,merge
+}
+
+public enum Buff_Type
+{
+    none,
+    speed,power
 }
 
 
@@ -418,33 +423,34 @@ public class PlayerControl : NetworkBehaviour
                 {
 
                     Unit targetUnit = hit.transform.GetComponent<Unit>();
-                if (targetUnit)
-                {
-                    if (SelectedUnit().faction != targetUnit.faction)
+
+                    if (targetUnit)
                     {
-
-
-                        RPC_IssueCommand(Unit_Command.attack, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
-
-                    }
-                    else if (SelectedUnit().faction == targetUnit.faction)
-                    {
-
-                        if (SelectedUnit().id == targetUnit.id)
+                        if (SelectedUnit().faction != targetUnit.faction)
                         {
 
 
-                            //   RPC_IssueCommand(Unit_Command.split, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
+                            RPC_IssueCommand(Unit_Command.attack, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
 
                         }
-                        else
+                        else if (SelectedUnit().faction == targetUnit.faction)
                         {
-                            RPC_IssueCommand(Unit_Command.merge, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
+
+                            if (SelectedUnit().id == targetUnit.id)
+                            {
+
+
+                                //   RPC_IssueCommand(Unit_Command.split, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
+
+                            }
+                            else
+                            {
+                                RPC_IssueCommand(Unit_Command.merge, SelectedUnit().faction, SelectedUnit().id, hit.transform.position, targetUnit.faction, targetUnit.id);
+
+                            }
 
                         }
-
                     }
-                }
 
                 }
                 else 
@@ -555,7 +561,7 @@ public class PlayerControl : NetworkBehaviour
                 if (targetUnit && targetUnit != actingUnit.GetBottomFollower())
                 {
 
-               //     actingUnit.SetCommand(Unit_Command.merge);
+                    actingUnit.SetCommand(Unit_Command.merge);
                     actingUnit.SetLeader(targetUnit);
                     targetUnit.SetFollower(actingUnit);
 

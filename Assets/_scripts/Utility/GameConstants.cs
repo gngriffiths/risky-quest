@@ -8,6 +8,12 @@ public static class GameConstants
     //GCD == Global cooldown
     public static float UNIT_SCALE_MAGNITUDE = 5;
 
+    public static float SPEEDBUFF = 1;
+    public static float POWERBUFF = 1;
+
+    public static float MAX_SPEEDBUFF = 15;
+    public static float MAX_POWERBUFF = 15;
+
     public static float GCD_UNITACTION = 3.5f;
 
     public static float TURNLENGTH_COMBAT = 0.2f;
