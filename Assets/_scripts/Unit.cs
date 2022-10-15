@@ -37,9 +37,27 @@ public class Unit : MonoBehaviour
     public Unit leader;
     public Unit follower;
 
-    private float followRange=1.5f;
+    public float followRange=3.5f;
 
     private float timer_cooldown;
+
+
+
+
+    [SerializeField]
+    private float buffCooldown = 5.0f;
+    [SerializeField]
+    private float timer_buffCooldown;
+
+    [SerializeField]
+    private float current_buffPower = 0;
+    [SerializeField]
+    private float current_buffSpeed = 0;
+
+
+
+
+
 
 
     void Start()
@@ -186,8 +204,34 @@ public class Unit : MonoBehaviour
         {
             if (DistanceTo(GetLeader().GetChainLinkPosition()) > followRange)
             {
-               SetNewDestination(GetLeader().GetChainLinkPosition());
+                SetNewDestination(GetLeader().GetChainLinkPosition());
             }
+            else 
+            {
+                if (ActiveCommand() == Unit_Command.merge)
+                {
+                    //GetLeader().
+                    GiveBuff(GameConstants.SPEEDBUFF,0);
+                    timer_buffCooldown = buffCooldown;
+
+                    SetCommand(Unit_Command.none);
+
+                    //if (GetOwner())
+                    //{
+                    //    //  SetCooldown(GameConstants.GCD_UNITACTION);
+                    //    if (GetLeader()  != null && timer_buffCooldown <= 0)
+                    //    {
+                            
+                    //    }
+
+                        
+                    //}
+                }
+            }
+
+
+
+
         }
         else if ( GetTarget() && CurrentCooldown() <= 0)
         {
@@ -222,15 +266,21 @@ public class Unit : MonoBehaviour
                             SetCommand(Unit_Command.none);
                         }
                     }
-                    //else if (ActiveCommand() == Unit_Command.merge)
-                    //{
-                    //    if (GetOwner())
-                    //    {
-                    //        SetCooldown(GameConstants.GCD_UNITACTION);
-                    //        GetOwner().MergeUnit(this, GetTarget());
+                else if (ActiveCommand() == Unit_Command.merge)
+                {
+                    if (GetOwner())
+                    {
+                        //  SetCooldown(GameConstants.GCD_UNITACTION);
+                        if (GetLeader() && GetTopLeader() != this && timer_buffCooldown <= 0)
+                        {
+                            GetTopLeader().GiveBuff(3 * (id % 2), 1 * (id % 2));
+                        }
+                        
+                        timer_buffCooldown = buffCooldown;
 
-                    //    }
-                    //}
+                        SetCommand(Unit_Command.none);
+                    }
+                }
 
             }
 
@@ -247,7 +297,17 @@ public class Unit : MonoBehaviour
            // NavAgent().speed = 0;
 
         }
-        else { NavAgent().speed = moveSpeed; }
+       // else { NavAgent().speed = moveSpeed + current_buffSpeed; }
+
+
+
+        UpdateCooldown(-Time.deltaTime);
+
+        //decay speed buff over time
+       // GiveBuff(-Time.deltaTime,0);
+
+
+
 
         if (unitCount <= 0)
         {
@@ -255,7 +315,7 @@ public class Unit : MonoBehaviour
             return;
         }
 
-        UpdateCooldown(-Time.deltaTime);
+        
 
     }
 
@@ -336,7 +396,8 @@ public class Unit : MonoBehaviour
 
             if (NavMesh.SamplePosition(_dest, out hit, 1f, NavMesh.AllAreas))
             {
-                NavAgent().speed = moveSpeed;
+                NavAgent().speed = moveSpeed + current_buffSpeed;
+                //NavAgent().speed = moveSpeed;
                 NavAgent().SetDestination(_dest);
             }
 
@@ -448,6 +509,30 @@ public class Unit : MonoBehaviour
     { command = _newCommand; }
 
 
+    public void GiveBuff(float _spd,float _power)
+    {
+        current_buffSpeed += _spd;
+        current_buffPower += _power;
+
+        current_buffSpeed = Mathf.Clamp(current_buffSpeed , 0,GameConstants.MAX_SPEEDBUFF);
+        current_buffPower = Mathf.Clamp(current_buffPower ,0, GameConstants.MAX_POWERBUFF);
+
+        NavAgent().speed = moveSpeed + current_buffSpeed;
+
+        if (GetLeader())
+        { GetLeader().GiveBuff(_spd,_power); }
+
+    }
+
+
+
+
+
+
+
+
+
+
     public int Count( )
     {return  unitCount ; }
 
@@ -471,7 +556,14 @@ public class Unit : MonoBehaviour
     { timer_cooldown = _cd; }
 
     public void UpdateCooldown(float _cd)
-    { timer_cooldown += _cd; }
+    {
+        if (timer_cooldown > 0)
+        { timer_cooldown += _cd; }
+        if (timer_buffCooldown > 0)
+        { timer_buffCooldown += _cd; }
+
+
+    }
 
     public float CurrentCooldown()
     { return timer_cooldown ; }
