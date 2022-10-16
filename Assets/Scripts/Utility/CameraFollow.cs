@@ -47,7 +47,10 @@ public class CameraFollow : MonoBehaviour
 		{
 			if (posOffset != Vector3.zero)
 			{
-				transform.position = Vector3.MoveTowards(transform.position, transform.position + posOffset, Time.deltaTime * followSpeed);
+				Vector3 newposition = transform.position + posOffset;
+				newposition = new Vector3(Mathf.Clamp(newposition.x, 0, GameConstants.BOUNDARY_X), newposition.y, Mathf.Clamp(newposition.z, 0, GameConstants.BOUNDARY_Z));
+
+				transform.position = Vector3.MoveTowards(transform.position, newposition, Time.deltaTime * followSpeed);
 
 			}
 		}
