@@ -520,7 +520,7 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 	{
 		//NOTE: this is called when a player has connected and finished spawning their playerobject
 
-		if (GetPreGameLobby())
+		if (GetPreGameLobby() && Runner.IsConnectedToServer)
 		{
 
 			PlayerRegistry.ForEach(pObj =>

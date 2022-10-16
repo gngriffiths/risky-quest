@@ -69,7 +69,13 @@ public class PlayerControl : NetworkBehaviour
     void Awake()
     {
         selector = GetComponent<Selector>();
-        GameManager.Instance.PlayerSpawned();
+
+        if (GameManager.Instance.GetPreGameLobby() )
+        {
+
+            GameManager.Instance.GetPreGameLobby().PlayerJoined(0);
+        }
+
 
     }
 
@@ -80,7 +86,6 @@ public class PlayerControl : NetworkBehaviour
         units = new List<Unit>();
         GameManager.Instance.RPC_PlayerSpawned();
 
-        GameManager.Instance.GetPreGameLobby().PlayerJoined(faction);
 
         if (Runner.LocalPlayer)
         {
@@ -102,9 +107,12 @@ public class PlayerControl : NetworkBehaviour
             Local = this;
             
         }
+
+        GameManager.Instance.GetPreGameLobby().PlayerJoined(faction);
+
     }
 
-    
+
 
 
     public GameObject GetUnitToSpawn()
@@ -341,7 +349,7 @@ public class PlayerControl : NetworkBehaviour
 
         }
 
-        if (camFollow)
+        if (GetCameraFollow())
         {
             ControlCamera();
            
@@ -376,7 +384,7 @@ public class PlayerControl : NetworkBehaviour
             camDirection = new Vector3(1, 0, camDirection.z);
         }
 
-        camFollow.SetPositionOffset(camDirection);
+        GetCameraFollow().SetPositionOffset(camDirection);
 
     }
 
