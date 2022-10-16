@@ -6,6 +6,7 @@ EditorUserSettings:
   serializedVersion: 4
   m_ConfigSettings:
 <<<<<<< HEAD
+<<<<<<< HEAD
     RecentlyUsedSceneGuid-0:
       value: 06540d035c07580c0c5a597147770744174e4e2c7a7f7235787c4c6be3b33160
       flags: 0
@@ -32,6 +33,37 @@ EditorUserSettings:
       flags: 0
     RecentlyUsedSceneGuid-8:
       value: 5052045201050b5d5c0b5f76467b5e444e1641787a2a27612e7b1962b5b9306e
+=======
+    RecentlyUsedSceneGuid-0:
+      value: 5a5757560101590a5d0c0e24427b5d44434e4c7a7b7a23677f2b4565b7b5353a
+      flags: 0
+    RecentlyUsedSceneGuid-1:
+      value: 0553555e5104515e555b5b2741225d44154e4978757e72692e711c35bbb4306e
+      flags: 0
+    RecentlyUsedSceneGuid-2:
+      value: 5b01025553015e0d595f0a7215725e4441154a7f29297034742d4d6bb2b23260
+      flags: 0
+    RecentlyUsedSceneGuid-3:
+      value: 5b0204515c54505a080f0e71447b0d4413161c7b2f2b7e68287a4862b2b8316d
+      flags: 0
+    RecentlyUsedSceneGuid-4:
+      value: 065351565d0d0b0c5f565c244373094441151b2e7b2a7235742d4466b6e53239
+      flags: 0
+    RecentlyUsedSceneGuid-5:
+      value: 06540d035c07580c0c5a597147770744174e4e2c7a7f7235787c4c6be3b33160
+      flags: 0
+    RecentlyUsedSceneGuid-6:
+      value: 5a02505f55020b0d080d5b75427007444e4e487f787b77342c2a4c6ab4b9626e
+      flags: 0
+    RecentlyUsedSceneGuid-7:
+      value: 50540c5406075e0f5d590e21462506444f4e1c2e7b7c24602f281861b6b46d6a
+      flags: 0
+    RecentlyUsedSceneGuid-8:
+      value: 5b05520757010a08090a5d7449205b441416417d7c797f657f704a60bbb9353e
+      flags: 0
+    RecentlyUsedSceneGuid-9:
+      value: 51050353060d0f0f580b082343720944174f4f7c7a7827347f7f1b60b5b7323e
+>>>>>>> parent of f9fee2d (Merge pull request #4 from gngriffiths/thrash)
       flags: 0
     RecentlyUsedSceneGuid-9:
       value: 5407035706570a02095e5f2347275e4410164c7a747177347a281f37b0b0666f

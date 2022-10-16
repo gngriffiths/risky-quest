@@ -6,7 +6,7 @@ public class VehicleVFX : MonoBehaviour
     //[SerializeField] bool shoot;      // Testing
 
     [SerializeField] ParticleSystem dustParticles = null;
-    //[SerializeField] ParticleSystem[] gunParticles = null;
+    [SerializeField] ParticleSystem[] gunParticles = null;
 
     NavMeshAgent navMeshAgent
     {
@@ -24,7 +24,7 @@ public class VehicleVFX : MonoBehaviour
 
     private void Update()
     {
-        if (navMeshAgent.remainingDistance > 5)
+        if (navMeshAgent.remainingDistance > 2)
             VehicleMoving(true);
         else
             VehicleMoving(false);
@@ -39,25 +39,18 @@ public class VehicleVFX : MonoBehaviour
     void VehicleMoving(bool moving) 
     {
         if (moving && dustParticles.isStopped)
-        {
             dustParticles.Play();
-            //Debug.Log("Play");
-        }
         else if (!moving && dustParticles.isPlaying)
-        {
             dustParticles.Stop();
-            //Debug.Log("Stop");
-        }
-
     }
 
-    //public void Shoot(bool shooting)
-    //{
-    //    if(shooting)
-    //        foreach(var particle in gunParticles)            
-    //            particle.Play();
-    //    else
-    //        foreach (var particle in gunParticles)
-    //            particle.Stop();
-    //}
+    public void Shoot(bool shooting)
+    {
+        if(shooting)
+            foreach(var particle in gunParticles)            
+                particle.Play();
+        else
+            foreach (var particle in gunParticles)
+                particle.Stop();
+    }
 }

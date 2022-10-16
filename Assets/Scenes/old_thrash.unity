@@ -123,11 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 7ba84fe9af4f8c24baf62a84274ff967, type: 2}
-<<<<<<< HEAD:Assets/Scenes/game_thrash.unity
---- !u!1 &9135265
-=======
 --- !u!1 &4887198
->>>>>>> 82f1b4844c42ba39365609184f07afcf738cf054:Assets/Scenes/old_thrash.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,51 +131,28 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD:Assets/Scenes/game_thrash.unity
-  - component: {fileID: 9135266}
-  - component: {fileID: 9135267}
-  m_Layer: 12
-  m_Name: UIDocument
-=======
   - component: {fileID: 4887199}
   - component: {fileID: 4887201}
   - component: {fileID: 4887200}
   m_Layer: 14
   m_Name: Text (TMP) (1)
->>>>>>> 82f1b4844c42ba39365609184f07afcf738cf054:Assets/Scenes/old_thrash.unity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< HEAD:Assets/Scenes/game_thrash.unity
---- !u!4 &9135266
-Transform:
-=======
 --- !u!224 &4887199
 RectTransform:
->>>>>>> 82f1b4844c42ba39365609184f07afcf738cf054:Assets/Scenes/old_thrash.unity
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD:Assets/Scenes/game_thrash.unity
-  m_GameObject: {fileID: 9135265}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-=======
   m_GameObject: {fileID: 4887198}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
->>>>>>> 82f1b4844c42ba39365609184f07afcf738cf054:Assets/Scenes/old_thrash.unity
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-<<<<<<< HEAD:Assets/Scenes/game_thrash.unity
-  m_Father: {fileID: 619313890}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9135267
-=======
   m_Father: {fileID: 1662316715}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -189,24 +162,11 @@ RectTransform:
   m_SizeDelta: {x: 20, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4887200
->>>>>>> 82f1b4844c42ba39365609184f07afcf738cf054:Assets/Scenes/old_thrash.unity
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD:Assets/Scenes/game_thrash.unity
-  m_GameObject: {fileID: 9135265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PanelSettings: {fileID: 11400000, guid: 9789b3d4ef96d124dba1ba5629d20b3e, type: 2}
-  m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 9197481963319205126, guid: f03b4e11fbd369b43b38b80c6c3b2e3a, type: 3}
-  m_SortingOrder: 0
-=======
   m_GameObject: {fileID: 4887198}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -432,7 +392,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 46755151}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
->>>>>>> 82f1b4844c42ba39365609184f07afcf738cf054:Assets/Scenes/old_thrash.unity
 --- !u!1 &59920832
 GameObject:
   m_ObjectHideFlags: 0

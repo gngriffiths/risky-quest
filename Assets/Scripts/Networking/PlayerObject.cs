@@ -11,9 +11,6 @@ public class PlayerObject : NetworkBehaviour
 	[Networked]
 	public byte Index { get; set; }
 
-	[field: SerializeField] public NetworkString<_16> Nickname { get; set; }
-
-
 
 	public byte ColorIndex { get; set; }
 
@@ -60,9 +57,9 @@ public class PlayerObject : NetworkBehaviour
 
 
 	[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-	public void Rpc_SetNickname(string nick)
+	void Rpc_SetNickname(string nick)
 	{
-		Nickname = nick;		// Do we want to display player's nicknames?
+		//Nickname = nick;		// Do we want to display player's nicknames?
 	}
 
 	[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]

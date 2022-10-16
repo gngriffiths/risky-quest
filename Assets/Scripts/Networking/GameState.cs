@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class GameState : NetworkBehaviour
 {
-	[SerializeField] Default_Buttons default_Buttons = null;
-
-
 	public enum EGameState { Off, Pregame, Play, GameOver }
 
 	[Networked] public EGameState Previous { get; set; }
@@ -39,10 +36,7 @@ public class GameState : NetworkBehaviour
 
 			if (Runner.IsServer) // [SERVER] * -> Pregame
 			{
-				default_Buttons.PreGameHost();
-
-
-                PlayerRegistry.ForEach(pObj =>
+				PlayerRegistry.ForEach(pObj =>
 				{
 					
 
@@ -58,10 +52,6 @@ public class GameState : NetworkBehaviour
 
 				GameManager.rm.Purge();
 			}
-			else
-			{
-                default_Buttons.PreGameJoin();
-            }
 
 			if (Runner.IsPlayer) // [PLAYER] * -> Pregame
 			{

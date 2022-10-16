@@ -60,7 +60,7 @@ Material:
     - _Wave_Offset: 0.1
     - _Wave_Strength: 0.28
     m_Colors:
-    - _Bottom_Color: {r: 0.6784314, g: 0.50017273, b: 0.09411765, a: 0}
-    - _Top_Color: {r: 0.85882354, g: 0.717083, b: 0.13333334, a: 0}
+    - _Bottom_Color: {r: 0.6784314, g: 0.4972621, b: 0.09411765, a: 0}
+    - _Top_Color: {r: 0.8584906, g: 0.6759244, b: 0.13498275, a: 0}
     - _Wave_Direction: {r: 297.4, g: 119.96, b: 0, a: 0}
   m_BuildTextureStacks: []
