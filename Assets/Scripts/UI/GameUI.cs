@@ -38,8 +38,14 @@ public class GameUI : MonoBehaviour
 
 	public void InitPregame(Fusion.NetworkRunner runner)
     {
-        //gameSettingsObject.SetActive(true);
-        //pingText.gameObject.SetActive(true);
+		PlayerRegistry.ForEach(pObj =>
+		{
+			GameManager.Instance.PlayerSpawned();
+
+		});
+
+		//gameSettingsObject.SetActive(true);
+		//pingText.gameObject.SetActive(true);
 		//GameManager.im.nicknameHolder.gameObject.SetActive(true);
 	}
 

@@ -16,6 +16,9 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 	private Dictionary<int, int> playerObjectiveCount;
 
 
+
+	private PregameLobby pregameLobby;
+
 	[Networked]
 	public float gameTime { get; set; }
 
@@ -23,6 +26,8 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 	private float timestamp_lastCombat;
 
 	public float tracker_turnTime; 
+
+
 
 	[Networked]
 	public int winningFaction { get; set; }
@@ -36,6 +41,9 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
     public Transform parent_spawnPoints;
 	public Transform parent_unitPool;
+
+
+
 
 	public Transform GetUnitPool()
 	{
@@ -411,7 +419,14 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 		return newPlayer;
 	}
 
+	public PregameLobby GetPreGameLobby( )
+	{
 
+		if (pregameLobby == null)
+		{ pregameLobby = FindObjectOfType<PregameLobby>(); }
+
+		return pregameLobby;
+	}
 
 	public TextMeshPro debug_scoreDisplay;
 
@@ -482,17 +497,47 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 	{
 		//NOTE: this is called when a player has connected and finished spawning their playerobject
 
+		if (GetPreGameLobby())
+		{
+			
+				PlayerRegistry.ForEach(pObj =>
+				{
+					GetPreGameLobby().PlayerJoined(pObj.Index);
+
+				});
+		}
+
 		if (Runner.IsServer ) 
 		{
 			Debug.Log(PlayerRegistry.Count + " Players Ready");
-			
 		}
 
 
 
 	}
 
+	public void PlayerSpawned()
+	{
+		//NOTE: this is called when a player has connected and finished spawning their playerobject
 
+		if (GetPreGameLobby())
+		{
+
+			PlayerRegistry.ForEach(pObj =>
+			{
+				GetPreGameLobby().PlayerJoined(pObj.Index);
+
+			});
+		}
+
+		if (Runner.IsServer)
+		{
+			Debug.Log(PlayerRegistry.Count + " Players Ready");
+		}
+
+
+
+	}
 
 
 
