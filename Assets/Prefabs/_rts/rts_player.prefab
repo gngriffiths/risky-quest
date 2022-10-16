@@ -614,7 +614,7 @@ MonoBehaviour:
   units: []
   camFollow: {fileID: 0}
   faction: 0
-  prefab_unit: {fileID: 5612478822179878619, guid: c0cf59676301d4c4187b20e3f2ab751c, type: 3}
+  prefab_unit: {fileID: 2821142219477306449, guid: 0bbe831b449a3e447a806d920cd13e1c, type: 3}
   debug_unitDisplay: {fileID: 0}
 --- !u!114 &9175252927330397242
 MonoBehaviour:

@@ -58,7 +58,7 @@ public class Visual_Unit : MonoBehaviour
     {
         if (primaryRenderer) { primaryRenderer.material = _color; }
 
-        if (parent_unitCountIndicators == null) { return; }
+       // if (parent_unitCountIndicators == null) { return; }
 
         foreach (Transform el in parent_unitCountIndicators)
         {

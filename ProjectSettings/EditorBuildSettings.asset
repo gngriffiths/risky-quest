@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+<<<<<<< HEAD
+  - enabled: 1
+    path: Assets/Scenes/thrash_current.unity
+    guid: ebe088b7280f30647bcd7b4e9d954efa
+=======
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+>>>>>>> 7b5f64c04e37eb4df42b45d3fda30841f14e114a
   m_configObjects: {}
