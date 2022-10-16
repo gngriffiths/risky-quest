@@ -37,6 +37,12 @@ public class GameState : NetworkBehaviour
 		{
 			Debug.Log($"Entered {EGameState.Pregame} from {state}");
 
+
+			if (GameManager.Instance.GetPreGameLobby())
+			{
+				GameManager.Instance.GetPreGameLobby().StartLobby();
+			}
+
 			if (Runner.IsServer) // [SERVER] * -> Pregame
 			{
 				default_Buttons.PreGameHost();
@@ -75,7 +81,12 @@ public class GameState : NetworkBehaviour
 		StateMachine[EGameState.Play].onEnter = state =>
 		{
 			Debug.Log($"Entered {EGameState.Play} from {state}");
-			
+
+			if (GameManager.Instance.GetPreGameLobby())
+			{ 
+				GameManager.Instance.GetPreGameLobby().EndLobby();
+			}
+
 			if (Runner.IsServer) // [SERVER] * -> Play
 			{
 				

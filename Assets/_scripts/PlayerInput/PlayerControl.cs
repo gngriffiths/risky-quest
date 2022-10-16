@@ -66,14 +66,26 @@ public class PlayerControl : NetworkBehaviour
 
     }
 
+    void Awake()
+    {
+        selector = GetComponent<Selector>();
+        GameManager.Instance.PlayerSpawned();
+
+    }
+
+
+
     public override void Spawned()
     {
         units = new List<Unit>();
+        GameManager.Instance.RPC_PlayerSpawned();
+
+        GameManager.Instance.GetPreGameLobby().PlayerJoined(faction);
 
         if (Runner.LocalPlayer)
         {
             Local = this;
-            GameManager.Instance.RPC_PlayerSpawned();
+            
             //   faction = PlayerObject.Local.Index;
         }
         if (Object.HasInputAuthority)
@@ -251,7 +263,7 @@ public class PlayerControl : NetworkBehaviour
 
         }
 
-        if (Object.HasInputAuthority)
+        if (Object.HasInputAuthority && GameManager.State.Current == GameState.EGameState.Play)
         {
             ListenToInput();
         }
