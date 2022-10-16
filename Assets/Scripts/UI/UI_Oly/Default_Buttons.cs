@@ -31,7 +31,7 @@ public class Default_Buttons : MonoBehaviour
         settingPage = root.Q<VisualElement>("Setting_Hi-if");
         tutorialPage = root.Q<VisualElement>("Tuto_Hi-if");
 
-        settingButton = root.Q<Button>("Setting_Btn");
+        //settingButton = root.Q<Button>("Setting_Btn");
         tutorialButton = root.Q<Button>("Tuto_Btn");
         surrenderButton = root.Q<Button>("Surrender_Btn");
         startGameButton = root.Q<Button>("Start_Game");
@@ -41,7 +41,7 @@ public class Default_Buttons : MonoBehaviour
 
         playerScores = root.Q<Label>("Player_Scores");
 
-        settingButton.clicked += SettingButtonPressed;
+        //settingButton.clicked += SettingButtonPressed;
         tutorialButton.clicked += TutorialButtonPressed;
         surrenderButton.clicked += SurrenderButtonPressed;
         startGameButton.clicked += StartGameButtonPressed;
