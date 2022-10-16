@@ -30,6 +30,8 @@ public class PregameLobby : MonoBehaviour
             { el.gameObject.SetActive(false); }
         }
 
+        if (cars.childCount > 0)
+        { cars.GetChild(0).gameObject.SetActive(true); }
     }
 
     public void EndLobby()

@@ -24,10 +24,14 @@ public class VehicleVFX : MonoBehaviour
 
     private void Update()
     {
-        if (navMeshAgent.remainingDistance > 5)
-            VehicleMoving(true);
-        else
-            VehicleMoving(false);
+        if (navMeshAgent && OnNavMesh())
+        {
+            if (navMeshAgent.remainingDistance > 5)
+                VehicleMoving(true);
+            else
+                VehicleMoving(false);
+        }
+        
 
         //// if shoot is true, Shoot true
         //if (shoot)
@@ -48,6 +52,27 @@ public class VehicleVFX : MonoBehaviour
             dustParticles.Stop();
             //Debug.Log("Stop");
         }
+
+    }
+
+    public bool OnNavMesh()
+    {
+
+
+      
+            NavMeshHit hit;
+
+            if (NavMesh.SamplePosition(transform.position, out hit, 1f, NavMesh.AllAreas))
+            {
+                if (NavMesh.SamplePosition(navMeshAgentCached.destination, out hit, 1f, NavMesh.AllAreas))
+                {
+                    return true;
+                }
+            }
+        return false;
+
+        
+
 
     }
 
