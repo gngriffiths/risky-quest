@@ -76,10 +76,11 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-UserSettings/Layouts/default-2021.dwlt
-UserSettings/EditorUserSettings.asset
-UserSettings/EditorUserSettings.asset
-UserSettings/EditorUserSettings.asset
-ProjectSettings/EditorBuildSettings.asset
-UserSettings/EditorUserSettings.asset
+/UserSettings/Layouts/default-2021.dwlt
+/UserSettings/EditorUserSettings.asset
+/UserSettings/EditorUserSettings.asset
+/UserSettings/EditorUserSettings.asset
+/ProjectSettings/EditorBuildSettings.asset
+/UserSettings/EditorUserSettings.asset
+/Assets/Plugins/FMOD/*
 fmod_editor.log
