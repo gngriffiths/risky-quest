@@ -443,9 +443,10 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 			{
 				if (PlayerObjectiveTracker().ContainsKey(pObj.Index))
 				{
-					RPC_ConcludeCombatTurn(pObj.Nickname, PlayerObjectiveTracker()[pObj.Index]);
-					winningText += "Player " + (pObj.Nickname) + " controls " + PlayerObjectiveTracker()[pObj.Index] + " bases. \n";
-				}
+
+					winningText += (pObj.Nickname) + "'s" + " bases: " + PlayerObjectiveTracker()[pObj.Index] + "\n";
+                    RPC_ConcludeCombatTurn(pObj.Nickname, PlayerObjectiveTracker()[pObj.Index], winningText);
+                }
 
 			});
 
@@ -467,31 +468,35 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 
 	[Rpc(RpcSources.All, RpcTargets.All)]
-	public void RPC_ConcludeCombatTurn(NetworkString<_16> _player,int _bases)
+	public void RPC_ConcludeCombatTurn(NetworkString<_16> _player,int _bases, string winningText)
 	{
-		if (debug_scoreDisplay)
-		{
 
-			string winningText = "";
+        if (uIToolKit != null)
+            uIToolKit.Scores(winningText);
 
+        //if (debug_scoreDisplay)
+        //{
 
-			winningText += "Player " + _player + " controls " + _bases + " bases. \n";
-			
-
-			//debug_scoreDisplay.text = winningText;
-			if (uIToolKit != null)
-				uIToolKit.Scores(winningText);
+        //	string winningText = "";
 
 
-		}
-		else
-		{
-			if (GameObject.Find("debugtext_Objective"))
-			{ debug_scoreDisplay = GameObject.Find("debugtext_Objective").GetComponent<TextMeshPro>(); }
-		}
+        //	winningText += "Player " + _player + " controls " + _bases + " bases. \n";
 
 
-	}
+        //	//debug_scoreDisplay.text = winningText;
+        //	if (uIToolKit != null)
+        //		uIToolKit.Scores(winningText);
+
+
+        //}
+        //else
+        //{
+        //	if (GameObject.Find("debugtext_Objective"))
+        //	{ debug_scoreDisplay = GameObject.Find("debugtext_Objective").GetComponent<TextMeshPro>(); }
+        //}
+
+
+    }
 
 	[Rpc(RpcSources.All, RpcTargets.All)]
 	public void RPC_PlayerSpawned()
