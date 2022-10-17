@@ -169,7 +169,7 @@ public class PlayerControl : NetworkBehaviour
 
             clone.GetComponent<Unit>().Init(pID, tracker_idCount, GameManager.rm.PlayerMaterials[pID], spawnPos, spawnpoint.rotation);
             clone.GetComponent<Unit>().owner = this;
-            clone.GetComponent<Unit>().SetCount(2);
+            clone.GetComponent<Unit>().SetCount(1);
             count++;
         }
 
@@ -204,7 +204,7 @@ public class PlayerControl : NetworkBehaviour
 
         clone.GetComponent<Unit>().Init(_faction, tracker_idCount, GameManager.rm.PlayerMaterials[_faction], _pos, transform.rotation);
         clone.GetComponent<Unit>().owner = this;
-        clone.GetComponent<Unit>().SetCount(2);
+        clone.GetComponent<Unit>().SetCount(1);
 
         GetUnits().Add(clone.GetComponent<Unit>());
 
@@ -333,7 +333,7 @@ public class PlayerControl : NetworkBehaviour
         {
             tracker_unitSelector++;
 
-            if (tracker_unitSelector > tracker_idCount)
+            if (tracker_unitSelector >= GetUnits().Count)
             { tracker_unitSelector = 0; }
 
             if (GetUnit(tracker_unitSelector) && GetUnit(tracker_unitSelector).gameObject.activeSelf)
@@ -536,6 +536,7 @@ public class PlayerControl : NetworkBehaviour
             actingUnit.SetCommand(Unit_Command.move);
 
             actingUnit.SetNewDestination(_point);
+
             actingUnit.Visuals().EndAttack();
 
 
@@ -800,8 +801,11 @@ public class PlayerControl : NetworkBehaviour
             if (deadUnit)
             {
                 deadUnit.De_Init();
+
                 if (GetUnits().Contains(deadUnit))
                 { GetUnits().Remove(deadUnit); }
+
+                if (tracker_unitSelector >= GetUnits().Count) { tracker_unitSelector = 0; }
             }
         }
         

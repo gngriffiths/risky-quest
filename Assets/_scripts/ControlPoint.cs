@@ -62,6 +62,7 @@ public class ControlPoint : MonoBehaviour
 
         int factionInControl = -1;
 
+        controllerFaction = -1;
         controllerStrength = 0;
 
 
@@ -73,28 +74,37 @@ public class ControlPoint : MonoBehaviour
 
             foreach (Unit el in GetUnits())
             {
-                if (el.gameObject.activeSelf && el.Count() > 0)
+                if (el.gameObject.activeSelf && el.Count() > 0 && Vector3.Distance(el.transform.position,transform.position) < zoneRadius)
                 {
-                    if (factionInControl == -1)
-                    {
-                        factionInControl = el.faction;
-                    }
+
+
+                    
 
 
                     if (PlayerControlStrength().ContainsKey(el.faction))
                     {
 
                         PlayerControlStrength()[el.faction] = PlayerControlStrength()[el.faction] + 1;
+
+
                     }
                     else
                     {
                         PlayerControlStrength().Add(el.faction, 1);
                     }
 
+
+                    if (factionInControl == -1)
+                    {
+                        factionInControl = el.faction;
+                    }
+
+
                     if (PlayerControlStrength()[factionInControl] < PlayerControlStrength()[el.faction])
                     {
                         factionInControl = el.faction;
                     }
+
                 }
             }
 

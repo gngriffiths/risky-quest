@@ -59,8 +59,8 @@ public class CombatManager : MonoBehaviour
 
             GetCombats().Insert(0,combat);
 
-            attacker.SetCommand(Unit_Command.inCombat_attacking);
-            defender.SetCommand(Unit_Command.inCombat_defending);
+            attacker.SetCommand(Unit_Command.none);
+             defender.SetCommand(Unit_Command.none);
 
             attacker.SetNewDestination(attacker.transform.position);
             defender.SetNewDestination(defender.transform.position);
@@ -131,15 +131,15 @@ public class CombatManager : MonoBehaviour
             float modifiedAttackRoll = _atkRoll;
             float modifiedDefenseRoll = _defRoll;
 
-            if (attacker.GetControlPoint() && attacker.GetControlPoint().controllerFaction == attacker.faction)
-            {
-                modifiedAttackRoll += attacker.GetControlPoint().bonusCombatStrength;
-            }
+            //if (attacker.GetControlPoint() && attacker.GetControlPoint().controllerFaction == attacker.faction)
+            //{
+            //    modifiedAttackRoll += attacker.GetControlPoint().bonusCombatStrength;
+            //}
 
-            if (defender.GetControlPoint() && defender.GetControlPoint().controllerFaction == defender.faction)
-            {
-                modifiedDefenseRoll += defender.GetControlPoint().bonusCombatStrength;
-            }
+            //if (defender.GetControlPoint() && defender.GetControlPoint().controllerFaction == defender.faction)
+            //{
+            //    modifiedDefenseRoll += defender.GetControlPoint().bonusCombatStrength;
+            //}
 
             //defender.transform.LookAt(attacker.transform.position);
             combat.defender.Visuals().StartAttack();

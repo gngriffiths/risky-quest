@@ -196,8 +196,9 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 
 		foreach (ControlPoint el in GetObjectives())
 		{
+			el.CheckForControl();
 
-			if (el.controllerFaction != -1)
+			if (el.controllerFaction != -1 && el.controllerStrength > 0)
 			{
 
 				PlayerControl controllingPlayer = GetPlayer(el.controllerFaction);
