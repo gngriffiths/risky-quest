@@ -83,6 +83,7 @@ public class Unit : MonoBehaviour
         transform.position = _pos;
         transform.rotation = _rot;
 
+        gameObject.SetActive(true);
 
         SetCooldown(-1);
 
@@ -90,7 +91,7 @@ public class Unit : MonoBehaviour
 
         Init_Visuals(_color);
 
-        gameObject.SetActive(true);
+        
 
         if (owner)
         { 
@@ -100,21 +101,21 @@ public class Unit : MonoBehaviour
 
         SetTarget(null);
 
-        if (GetFollower())
-        {
-            GetFollower().SetLeader(null);
-        }
-
-        if (GetLeader())
-        {
-            GetLeader().SetFollower(null);
-        }
-
-
         SetLeader(null);
         SetFollower(null);
+        current_controlPoint = null;
 
-        SetNewDestination(transform.position);
+        //if (GetFollower())
+        //{
+        //    GetFollower().SetLeader(null);
+        //}
+
+        //if (GetLeader())
+        //{
+        //    GetLeader().SetFollower(null);
+        //}
+
+        SetNewDestination(_pos);
 
 
         transform.localScale = Vector3.one * GameConstants.UNIT_SCALE_MAGNITUDE;
@@ -146,12 +147,18 @@ public class Unit : MonoBehaviour
     {
         if (GetFollower())
         {
-            GetFollower().SetLeader(null);
+            if (GetFollower().GetLeader() == this)
+            {
+                GetFollower().SetLeader(null);
+            }
         }
 
         if (GetLeader())
         {
-            GetLeader().SetFollower(null);
+            if (GetLeader().GetFollower() == this)
+            {
+                GetLeader().SetFollower(null);
+            }
         }
 
         Visuals().Death(transform.position);
@@ -266,21 +273,16 @@ public class Unit : MonoBehaviour
                             SetCommand(Unit_Command.none);
                         }
                     }
-                else if (ActiveCommand() == Unit_Command.merge)
-                {
-                    if (GetOwner())
+                    else if (ActiveCommand() == Unit_Command.merge)
                     {
-                        //  SetCooldown(GameConstants.GCD_UNITACTION);
-                        if (GetLeader() && GetTopLeader() != this && timer_buffCooldown <= 0)
+                        if (GetOwner())
                         {
-                            GetTopLeader().GiveBuff(3 * (id % 2), 1 * (id % 2));
-                        }
-                        
-                        timer_buffCooldown = buffCooldown;
+                           
 
-                        SetCommand(Unit_Command.none);
+                            SetCommand(Unit_Command.none);
+                        }
+
                     }
-                }
 
             }
 
@@ -323,6 +325,11 @@ public class Unit : MonoBehaviour
 
     public void TakeDamage(int _dmg)
     {
+        if (Count() <= 0 )
+        {
+            return;
+        }
+
         UpdateCount(-_dmg);
         
 
@@ -439,7 +446,7 @@ public class Unit : MonoBehaviour
         //to avoid possible infinite loops
         if (leader.GetLeader() == this) { return this; }
 
-        return leader.GetLeader();
+        return leader.GetTopLeader();
     }
     public Unit GetBottomFollower()
     {
