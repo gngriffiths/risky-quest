@@ -35,10 +35,14 @@ Material:
     m_Ints: []
     m_Floats:
     - _Blend: 0.48
+    - _BottomLine: 0.35
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _TopLine: 0.65
     m_Colors:
-    - _BaseColor: {r: 0.38679248, g: 0.2060837, b: 0.13014713, a: 0}
+    - _BaseColor: {r: 0.9137255, g: 0.74124616, b: 0.109803915, a: 0}
+    - _Bottom_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Top_Color: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4819028062826359011
 MonoBehaviour:
